@@ -49,7 +49,7 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 			for (const guard of guards) {
 				const result = await guard(context);
 				if (!result.success) {
-					await message.reply(result.message ?? T("error", guild.locale));
+					await message.reply(result.message ?? T(guild.locale, "error"));
 					return;
 				}
 			}

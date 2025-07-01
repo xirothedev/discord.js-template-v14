@@ -1,4 +1,4 @@
-import { Partials } from "discord.js";
+import { GatewayIntentBits, Partials } from "discord.js";
 import { CustomClient } from "./client/CustomClient";
 import { loadPrefixCommands, loadSlashCommands } from "./handlers/command.handler";
 import { loadEvents } from "./handlers/event.handler";
@@ -14,7 +14,17 @@ export const client = new CustomClient({
 		Partials.User,
 		Partials.ThreadMember,
 	],
-	intents: 3276799,
+	intents: [
+		GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.DirectMessageTyping,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildVoiceStates,
+		GatewayIntentBits.GuildInvites,
+		GatewayIntentBits.Guilds,
+	],
 	allowedMentions: { parse: ["roles", "users"], repliedUser: false },
 });
 

@@ -39,6 +39,8 @@ export function CooldownGuard(seconds: number) {
 				success: false,
 				message: T(guild?.locale || "EnglishUS", "guard.cooldown", { ns: "guards", seconds: remaining.toString() }),
 			};
+		} else if (expiresAt) {
+			cooldowns.delete(key);
 		}
 
 		cooldowns.set(key, now + seconds * 1000);
@@ -46,3 +48,12 @@ export function CooldownGuard(seconds: number) {
 		return { success: true };
 	};
 }
+
+setInterval(() => {
+	const now = Date.now();
+	for (const [key, expiresAt] of cooldowns.entries()) {
+		if (expiresAt < now) {
+			cooldowns.delete(key);
+		}
+	}
+}, 60 * 1000);
