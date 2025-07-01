@@ -11,6 +11,7 @@ services:
       - NODE_ENV=production
     # depends_on:
       # - db
+      # - cache
 
 #   db:
 #     image: postgres:17-alpine
@@ -19,11 +20,22 @@ services:
 #     environment:
 #       POSTGRES_USER: postgres
 #       POSTGRES_PASSWORD: postgres
-#       POSTGRES_DB: discordbot
+#       POSTGRES_DB: discordbotq
 #     ports:
 #       - "5432:5432"
 #     volumes:
 #       - db_data:/var/lib/postgresql/data
 
+  # cache:
+  #   image: redis:8.0.2-alpine3.21
+  #   restart: always
+  #   ports:
+  #     - '6379:6379'
+  #   command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+  #   volumes: 
+  #     - cache:/data
+
 # volumes:
+#   cache:
+#     driver: local
 #   db_data: 

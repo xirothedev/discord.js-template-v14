@@ -69,6 +69,77 @@ enum Language {
 }
 ```
 
+## Redis Store
+
+This template supports Redis for fast, ephemeral storage—ideal for features like cooldowns, caching, and distributed state. Redis is integrated via the [`ioredis`](https://github.com/luin/ioredis) library, and utility functions are provided in `src/store/redisStore.ts`.
+
+#### Setup
+
+1. **Start a Redis server** (locally or via Docker):
+
+   ```sh
+   docker run -d --name redis -p 6379:6379 redis:alpine
+   ```
+
+2. **Configure environment variables** in your `.env` file:
+
+   ```env
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+   REDIS_PASSWORD=yourpassword  # (optional, if set)
+   ```
+
+3. **Install dependencies** (if not already):
+
+   ```sh
+   bun add ioredis
+   ```
+
+#### Usage Example
+
+You can use the provided utility functions to interact with Redis:
+
+```ts
+import { setAddition, getAddition, deleteAddition } from "@/store/redisStore";
+
+// Store a value with a key and expiration (in seconds)
+await setAddition("mykey", { foo: "bar" }, 600);
+
+// Retrieve a value by key
+const value = await getAddition("mykey");
+
+// Delete a key
+await deleteAddition("mykey");
+```
+
+**Other available functions:**
+- `existsAddition(key)` – Check if a key exists.
+- `expireAddition(key, seconds)` – Set a new expiration for a key.
+- `getTTLAddition(key)` – Get the remaining TTL (in seconds) for a key.
+- `keysAddition(pattern)` – List keys matching a pattern (e.g., `"cooldown:*"`).
+
+#### Example: Cooldown Guard
+
+Redis is used in the CooldownGuard to persist user command cooldowns:
+
+```ts
+const key = `cooldown:${userId}:${commandName}`;
+const now = Date.now();
+const expiresAt = (await getAddition(key)) || 0;
+
+if (now < expiresAt) {
+  // Still on cooldown
+} else {
+  await setAddition(key, String(now + seconds * 1000), seconds);
+}
+```
+
+#### When to Use Redis
+
+- **Cooldowns**: Prevent command spam across distributed bot instances.
+- **Caching**: Store frequently accessed data for fast retrieval.
+- **Ephemeral State**: Share state between processes or servers.
+
 ## Getting Started
 
 ### Prerequisites

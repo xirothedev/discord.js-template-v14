@@ -1,11 +1,10 @@
 import { T } from "@/handlers/i18n.handler";
 import type { CommandContext } from "@/structures/Guard";
 import { getPrefixCommand } from "@/utils/getPrefixCommand";
-
-const cooldowns = new Map<string, number>();
+import { getAddition, setAddition, deleteAddition } from "@/store/redisStore";
 
 export function CooldownGuard(seconds: number) {
-	return ({ interaction, message, guild }: CommandContext) => {
+	return async ({ interaction, message, guild }: CommandContext) => {
 		const userId = interaction?.user.id || message?.author.id;
 		let commandName: string;
 
@@ -28,10 +27,10 @@ export function CooldownGuard(seconds: number) {
 			};
 		}
 
-		const key = `${userId}:${commandName}`;
+		const key = `cooldown:${userId}:${commandName}`;
 
 		const now = Date.now();
-		const expiresAt = cooldowns.get(key) || 0;
+		const expiresAt = (await getAddition(key)) || 0;
 
 		if (now < expiresAt) {
 			const remaining = Math.ceil((expiresAt - now) / 1000);
@@ -40,20 +39,11 @@ export function CooldownGuard(seconds: number) {
 				message: T(guild?.locale || "EnglishUS", "guard.cooldown", { ns: "guards", seconds: remaining.toString() }),
 			};
 		} else if (expiresAt) {
-			cooldowns.delete(key);
+			await deleteAddition(key);
 		}
 
-		cooldowns.set(key, now + seconds * 1000);
+		await setAddition(key, String(now + seconds * 1000), seconds);
 
 		return { success: true };
 	};
 }
-
-setInterval(() => {
-	const now = Date.now();
-	for (const [key, expiresAt] of cooldowns.entries()) {
-		if (expiresAt < now) {
-			cooldowns.delete(key);
-		}
-	}
-}, 60 * 1000);
