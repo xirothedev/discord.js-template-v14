@@ -1,0 +1,5 @@
+{
+	"cooldown": "⏳ Please wait {seconds}s before using this command again.",
+	"channel": "❌ You cannot use this command in this channel.",
+	"developer_only": "⚠️ This command is for developers only."
+}

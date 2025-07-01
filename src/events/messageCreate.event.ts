@@ -58,7 +58,7 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 			await command.execute(message, guild, user, args);
 		} catch (err) {
 			console.error(`❌ Error running command ${commandInput}:`, err);
-			await message.reply(T(guild?.locale!, "error"));
+			await message.reply(T(guild?.locale || "EnglishUS", "error"));
 		}
 	}
 }

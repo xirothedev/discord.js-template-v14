@@ -12,7 +12,7 @@ export class PingCommand extends BasePrefixCommand {
 	aliases = ["pong"];
 
 	async execute(message: Message<true>, guild: Guild, user: User, args: string[]) {
-		const msg = await message.channel.send(T(guild.locale, "ping.checking"));
+		const msg = await message.channel.send(T(guild.locale, "ping.checking", { ns: "commands" }));
 
 		const botLatency = msg.createdTimestamp - message.createdTimestamp;
 		const apiLatency = Math.round(this.client.ws.ping);
@@ -28,12 +28,12 @@ export class PingCommand extends BasePrefixCommand {
 			.setColor(this.client.config.color.main)
 			.addFields([
 				{
-					name: T(guild.locale, "ping.bot_latency"),
+					name: T(guild.locale, "ping.bot_latency", { ns: "commands" }),
 					value: `\`\`\`diff\n${botLatencySign} ${botLatency}ms\n\`\`\``,
 					inline: true,
 				},
 				{
-					name: T(guild.locale, "ping.api_latency"),
+					name: T(guild.locale, "ping.api_latency", { ns: "commands" }),
 					value: `\`\`\`diff\n${apiLatencySign} ${apiLatency}ms\n\`\`\``,
 					inline: true,
 				},
@@ -45,6 +45,5 @@ export class PingCommand extends BasePrefixCommand {
 			.setTimestamp();
 
 		await msg.edit({ content: "", embeds: [embed] });
-		return;
 	}
 }

@@ -16,7 +16,7 @@ export function CooldownGuard(seconds: number) {
 			if (!result) {
 				return {
 					success: false,
-					message: T(guild?.locale!, "error"),
+					message: T(guild?.locale || "EnglishUS", "error"),
 				};
 			}
 
@@ -24,7 +24,7 @@ export function CooldownGuard(seconds: number) {
 		} else {
 			return {
 				success: false,
-				message: T(guild?.locale!, "error"),
+				message: T(guild?.locale || "EnglishUS", "error"),
 			};
 		}
 
@@ -37,7 +37,7 @@ export function CooldownGuard(seconds: number) {
 			const remaining = Math.ceil((expiresAt - now) / 1000);
 			return {
 				success: false,
-				message: T(guild?.locale!, "guard.cooldown", { seconds: remaining.toString() }),
+				message: T(guild?.locale || "EnglishUS", "guard.cooldown", { ns: "guards", seconds: remaining.toString() }),
 			};
 		}
 

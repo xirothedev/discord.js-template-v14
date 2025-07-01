@@ -36,7 +36,7 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 				const result = await guard(context);
 				if (!result.success) {
 					await interaction.reply({
-						content: result.message ?? T(guild?.locale!, "error"),
+						content: result.message ?? T(guild?.locale || "EnglishUS", "error"),
 						flags: MessageFlags.Ephemeral,
 					});
 
@@ -56,12 +56,12 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 			console.error(`❌ error running slash command ${interaction.commandName}:`, error);
 			if (interaction.replied || interaction.deferred) {
 				await interaction.followUp({
-					content: T(guild?.locale!, "error"),
+					content: T(guild?.locale || "EnglishUS", "error"),
 					flags: MessageFlags.Ephemeral,
 				});
 			} else {
 				await interaction.reply({
-					content: T(guild?.locale!, "error"),
+					content: T(guild?.locale || "EnglishUS", "error"),
 					flags: MessageFlags.Ephemeral,
 				});
 			}

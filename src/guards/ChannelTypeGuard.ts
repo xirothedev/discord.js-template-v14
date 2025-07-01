@@ -8,7 +8,7 @@ export function ChannelTypeGuard(allowedTypes: (keyof typeof ChannelType)[]): Gu
 		if (!channel) {
 			return {
 				success: false,
-				message: T(guild?.locale!, "error"),
+				message: T(guild?.locale || "EnglishUS", "error"),
 			};
 		}
 
@@ -18,7 +18,7 @@ export function ChannelTypeGuard(allowedTypes: (keyof typeof ChannelType)[]): Gu
 		if (!allowedValues.includes(currentType)) {
 			return {
 				success: false,
-				message: T(guild?.locale!, "error"),
+				message: T(guild?.locale || "EnglishUS", "channel", { ns: "guards" }),
 			};
 		}
 
