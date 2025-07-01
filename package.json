@@ -1,0 +1,47 @@
+{
+	"name": "discord.js-template-v14",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/index.ts",
+	"scripts": {
+		"dev": "bun run src/index.ts --watch",
+		"start": "bun src/index.ts",
+		"db:push": "prisma db push",
+		"db:deploy": "prisma migrate deploy",
+		"lint": "biome lint .",
+		"format": "biome format --write .",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.11.1",
+	"dependencies": {
+		"@prisma/client": "^6.10.1",
+		"dayjs": "^1.11.13",	
+		"discord.js": "^14.21.0",
+		"i18next": "24.2.0",
+		"i18next-fs-backend": "2.6.0",
+		"reflect-metadata": "^0.2.2",
+		"signale": "^1.4.0",
+		"typescript": "^5.8.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.0.6",
+		"@types/bun": "latest",
+		"@types/signale": "^1.4.7",
+		"prisma": "^6.10.1"
+	},
+	"signale": {
+		"displayScope": true,
+		"displayBadge": true,
+		"displayDate": true,
+		"displayFilename": true,
+		"displayLabel": true,
+		"displayTimestamp": true,
+		"underlineLabel": true
+	},
+	"prisma": {
+		"schema": "./prisma/schema"
+	}
+}
