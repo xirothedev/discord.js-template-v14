@@ -18,7 +18,7 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 - **Languages**: TypeScript
 - **Frameworks/Libraries**: discord.js, Prisma, i18next, signale, dayjs
 - **Database**: PostgreSQL (via Prisma)
-- **Package Manager**: pnpm (preferred)
+- **Package Manager**: bun (preferred)
 - **Runtime**: Bun.js
 - **Linting/Formatting**: Biome
 
@@ -46,7 +46,7 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 ├── package.json
 ├── tsconfig.json
 ├── biome.json
-└── pnpm-lock.yaml
+└── bun.lock
 ```
 
 ## Database Models (Prisma)
@@ -74,7 +74,6 @@ enum Language {
 ### Prerequisites
 
 - Node.js (v18+ recommended)
-- pnpm (preferred) or npm/yarn
 - PostgreSQL database
 - [Bun](https://bun.sh/) (for running scripts, optional but recommended)
 
@@ -88,9 +87,7 @@ enum Language {
 
 2. **Install dependencies:**
    ```sh
-   pnpm install
-   # or
-   npm install
+   bun install
    ```
 
 3. **Configure environment variables:**
@@ -98,26 +95,24 @@ enum Language {
 
 4. **Set up the database:**
    ```sh
-   pnpm exec prisma migrate dev
-   # or
-   npx prisma migrate dev
+   bun x prisma migrate dev
    ```
 
 5. **Generate Prisma client:**
    ```sh
-   pnpm exec prisma generate
+   bun x prisma generate
    ```
 
 ### Running the Bot
 
 - **Development mode (with hot-reload):**
   ```sh
-  bun run src/index.ts --watch
+  bun dev
   ```
 
 - **Production mode:**
   ```sh
-  bun src/index.ts
+  bun start
   ```
 
 ### Debugging
@@ -145,7 +140,7 @@ Each command class receives the `CustomClient` instance for shared services (log
 ### Database
 
 - Define new models in `prisma/schema/schema.prisma`.
-- Run `pnpm exec prisma migrate dev` after schema changes.
+- Run `bun x prisma migrate dev` after schema changes.
 
 ### Usage example
 
@@ -291,10 +286,10 @@ You can combine multiple guards for a command. If any guard returns a failure, t
 
 ## Scripts
 
-- `pnpm dev` — Start the bot in development mode (hot-reload).
-- `pnpm start` — Start the bot in production mode.
-- `pnpm exec prisma migrate dev` — Run database migrations.
-- `pnpm exec prisma generate` — Generate Prisma client.
+- `bun dev` — Start the bot in development mode (hot-reload).
+- `bun start` — Start the bot in production mode.
+- `bun x prisma migrate dev` — Run database migrations.
+- `bun x prisma generate` — Generate Prisma client.
 
 ## Contributing
 
