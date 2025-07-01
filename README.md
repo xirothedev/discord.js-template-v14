@@ -163,7 +163,7 @@ export default class PingCommand extends BasePrefixCommand {
 
 #### Slash Command
 
-Create a new file in `src/commands/slash/`, example: `hello.ts`:
+Create a new file in `src/commands/slash/`, example: `hello.slash.ts`:
 
 ```ts
 import { BaseSlashCommand, SlashCommandContext } from '@/structures';
