@@ -1,0 +1,5 @@
+bun format
+
+git add .
+
+bun lint

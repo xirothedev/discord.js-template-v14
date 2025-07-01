@@ -1,14 +1,14 @@
 {
-  "translation": {
-    "guard": {
-      "cooldown": "⏳ Vui lòng chờ {seconds}s trước khi sử dụng lệnh này lần nữa.",
-      "channel": "❌ Bạn không thể sử dụng lệnh này trong kênh này."
-    },
-    "error": "Đã xảy ra lỗi.",
-    "ping": {
-      "checking": "Checking ping...",
-      "bot_latency": "Bot Latency",
-      "api_latency": "API Latency"
-    }
-  }
+	"translation": {
+		"guard": {
+			"cooldown": "⏳ Vui lòng chờ {seconds}s trước khi sử dụng lệnh này lần nữa.",
+			"channel": "❌ Bạn không thể sử dụng lệnh này trong kênh này."
+		},
+		"error": "Đã xảy ra lỗi.",
+		"ping": {
+			"checking": "Checking ping...",
+			"bot_latency": "Bot Latency",
+			"api_latency": "API Latency"
+		}
+	}
 }

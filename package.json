@@ -1,24 +1,35 @@
 {
 	"name": "discord.js-template-v14",
 	"version": "1.0.0",
-	"description": "",
+  "description": "A modern, scalable, and extensible Discord bot template built with [discord.js v14](https://discord.js.org/), TypeScript, and Prisma ORM. This template is designed for rapid development of robust Discord bots, featuring multi-language support, modular command/event handling, and PostgreSQL integration",
 	"main": "src/index.ts",
 	"scripts": {
 		"dev": "bun run src/index.ts --watch",
 		"start": "bun src/index.ts",
 		"db:push": "prisma db push",
 		"db:deploy": "prisma migrate deploy",
+    "docker:up": "docker compose up --build",
+    "docker:build": "docker compose build",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
+    "prepare": "[ \"$NODE_ENV\" = \"development\" ] && husky install || echo 'Skip husky install (not development)'",
+    "commit": "git-cz",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"packageManager": "pnpm@10.11.1",
+  "author": "xirothedev <lethanhtrung.trungle@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xirothedev/discord.js-template-v14.git"
+  },
+  "homepage": "https://github.com/xirothedev/discord.js-template-v14#readme",
+  "bugs": {
+    "url": "https://github.com/xirothedev/discord.js-template-v14/issues"
+  },
+  "license": "MIT",
 	"dependencies": {
 		"@prisma/client": "^6.10.1",
-		"dayjs": "^1.11.13",	
+    "dayjs": "^1.11.13",
 		"discord.js": "^14.21.0",
 		"i18next": "24.2.0",
 		"i18next-fs-backend": "2.6.0",
@@ -28,8 +39,11 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.0.6",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
 		"@types/bun": "latest",
 		"@types/signale": "^1.4.7",
+    "husky": "^9.1.7",
 		"prisma": "^6.10.1"
 	},
 	"signale": {
@@ -43,5 +57,17 @@
 	},
 	"prisma": {
 		"schema": "./prisma/schema"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "header-max-length": [
+        0,
+        "always",
+        100
+      ]
+    }
 	}
 }

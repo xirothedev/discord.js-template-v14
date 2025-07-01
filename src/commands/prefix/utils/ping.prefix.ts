@@ -11,12 +11,7 @@ export class PingCommand extends BasePrefixCommand {
 	description = "command.ping.description";
 	aliases = ["pong"];
 
-	async execute(
-		message: Message<true>,
-		guild: Guild,
-		user: User,
-		args: string[],
-	) {
+	async execute(message: Message<true>, guild: Guild, user: User, args: string[]) {
 		const msg = await message.channel.send(T(guild.locale, "ping.checking"));
 
 		const botLatency = msg.createdTimestamp - message.createdTimestamp;

@@ -1,5 +1,5 @@
 import { T } from "@/handlers/i18n.handler";
-import type { CommandContext, Guard } from "@/structures/Guard";
+import type { CommandContext } from "@/structures/Guard";
 import { getPrefixCommand } from "@/utils/getPrefixCommand";
 
 const cooldowns = new Map<string, number>();

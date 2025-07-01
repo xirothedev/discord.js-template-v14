@@ -9,8 +9,7 @@ export async function initI18n(client: CustomClient) {
 			fallbackLng: "EnglishUS",
 			supportedLngs: ["EnglishUS", "Vietnamese"],
 			backend: {
-				loadPath: (lng: string) =>
-					join(process.cwd(), "src", "locales", `${lng}.json`),
+				loadPath: (lng: string) => join(process.cwd(), "src", "locales", `${lng}.json`),
 			},
 			ns: ["translation"],
 			defaultNS: "translation",
@@ -35,7 +34,7 @@ export async function initI18n(client: CustomClient) {
 }
 
 // Helper function to get translation
-export function T(locale: string, key: string, params?: any): string {
+export function T(locale: string, key: string, params?: { [x: string]: string }): string {
 	const localeMap: { [key: string]: string } = {
 		"en-US": "EnglishUS",
 		en: "EnglishUS",
@@ -53,11 +52,7 @@ export function T(locale: string, key: string, params?: any): string {
 }
 
 // Helper function for localization
-export function localization(
-	lan: keyof typeof Locale,
-	name: string,
-	desc: string,
-) {
+export function localization(lan: keyof typeof Locale, name: string, desc: string) {
 	return {
 		name: [Locale[lan], name],
 		description: [Locale[lan], T(lan, desc)],
@@ -67,7 +62,6 @@ export function localization(
 export function descriptionLocalization(name: string, text: string) {
 	return Object.keys(Locale).map((locale: string) => {
 		if (locale in Locale) {
-			const localeValue = Locale[locale as keyof typeof Locale];
 			return localization(locale as keyof typeof Locale, name, text);
 		}
 		return localization("EnglishUS", name, text);

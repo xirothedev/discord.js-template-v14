@@ -1,0 +1,123 @@
+name: "🐞 Bug report"
+description: "Report a bug to help us improve the project"
+title: "[BUG] <Short description of the bug>"
+labels:
+  - bug
+  - needs-triage
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐞 Bug Description
+        Clearly and concisely describe the bug.
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "Describe the bug in detail."
+      placeholder: "A clear and concise description of what the bug is."
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## 🔁 Steps to Reproduce
+        List the steps so we can reproduce the bug.
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to Reproduce"
+      description: "Step-by-step instructions to reproduce the bug."
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## 🤔 Expected Behavior
+        What did you expect to happen?
+  - type: input
+    id: expected
+    attributes:
+      label: "Expected Behavior"
+      description: "What did you expect to happen?"
+      placeholder: "A clear and concise description of the expected behavior."
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## 🖼️ Screenshots (if applicable)
+        Attach screenshots or videos if they help explain the problem.
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "Screenshots"
+      description: "Paste links to screenshots or videos, or drag and drop files here."
+      placeholder: "Attach screenshots or videos if available."
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        ## 🧑‍💻 Environment Information
+        Please provide as much detail as possible to help us identify the issue.
+  - type: input
+    id: os
+    attributes:
+      label: "Operating System"
+      description: "e.g. Windows 11, Ubuntu 22.04, ..."
+    validations:
+      required: true
+  - type: input
+    id: bun
+    attributes:
+      label: "Bun.js Version"
+      description: "e.g. 1.x, ..."
+    validations:
+      required: true
+  - type: input
+    id: database
+    attributes:
+      label: "Database"
+      description: "e.g. PostgreSQL, SQLite, ..."
+    validations:
+      required: true
+  - type: input
+    id: package_manager
+    attributes:
+      label: "Package Manager"
+      description: "pnpm, npm, yarn, ..."
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## 📜 Error Logs
+        Paste error logs or stack traces if available.
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Error Logs"
+      description: "Paste error logs or stack traces here."
+      render: shell
+      placeholder: "<paste logs here>"
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        ## 📝 Additional Information
+        Add any other information you think might be helpful.
+  - type: textarea
+    id: additional
+    attributes:
+      label: "Additional Information"
+      description: "Any other context or information."
+      placeholder: "Add any other information you think might be helpful."
+    validations:
+      required: false 

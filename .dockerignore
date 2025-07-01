@@ -1,0 +1,13 @@
+.github
+.vscode
+node_modules
+.dockerignore
+.editorconfig
+.env
+.env.example
+.gitattributes
+.gitignore
+docker-compose.yml
+Dockerfile
+LICENSE
+README.md

@@ -16,8 +16,8 @@ export function getPrefixCommand(content: string, guild?: Guild) {
 	const args = content.slice(prefix.length).trim().split(/ +/g);
 	const commandInput = args.shift()?.toLowerCase();
 
-	if(!commandInput) {
-		return null
+	if (!commandInput) {
+		return null;
 	}
 
 	return { prefix, commandInput, args };

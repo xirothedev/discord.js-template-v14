@@ -1,14 +1,14 @@
 {
-  "translation": {
-    "guard": {
-      "cooldown": "⏳ Please wait {seconds}s before using this command again.",
-      "channel": "❌ You cannot use this command in this channel."
-    },
-    "error": "An error occurred.",
-    "ping": {
-      "checking": "Checking...",
-      "bot_latency": "Bot latency",
-      "api_latency": "API latency"
-    }
-  }
+	"translation": {
+		"guard": {
+			"cooldown": "⏳ Please wait {seconds}s before using this command again.",
+			"channel": "❌ You cannot use this command in this channel."
+		},
+		"error": "An error occurred.",
+		"ping": {
+			"checking": "Checking...",
+			"bot_latency": "Bot latency",
+			"api_latency": "API latency"
+		}
+	}
 }

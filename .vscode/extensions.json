@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "Prisma.prisma",
+    "coderabbit.coderabbit-vscode",
+    "biomejs.biome",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "EditorConfig.EditorConfig",
+    "YoavBls.pretty-ts-errors"
+  ],
+}

@@ -10,6 +10,6 @@ export async function OwnerOnlyGuard(ctx: CommandContext): Promise<GuardResult> 
 	if (getEnvOrThrow<string>("OWNER") !== userId) {
 		return { success: false, message: "❌ Lệnh này chỉ dành cho Owner." };
 	}
-  
+
 	return { success: true };
 }

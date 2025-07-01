@@ -1,5 +1,5 @@
 import { getEnvOrThrow } from "@/utils/getEnvOrThrow";
-import { ColorResolvable } from "discord.js";
+import type { ColorResolvable } from "discord.js";
 
 export const config = {
 	developers: getEnvOrThrow("DEVELOPERS").split(","),

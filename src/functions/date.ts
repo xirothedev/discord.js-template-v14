@@ -46,10 +46,7 @@ export const isValidTimezone = (tz: string) => {
  * @param mask - template for the date format
  * @returns formatted date
  */
-export function formatDate(
-	date: Date,
-	mask: keyof typeof dateMasks = "default",
-) {
+export function formatDate(date: Date, mask: keyof typeof dateMasks = "default") {
 	return datejs(date).format(dateMasks[mask]);
 }
 

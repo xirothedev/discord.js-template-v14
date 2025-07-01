@@ -82,7 +82,7 @@ enum Language {
 
 1. **Clone the repository:**
    ```sh
-   git clone <repo-url>
+   git clone https://github.com/xirothedev/discord.js-template-v14
    cd discord.js-template-v14
    ```
 
@@ -173,4 +173,4 @@ Each command class receives the `CustomClient` instance for shared services (log
 
 ## License
 
-ISC 
+[MIT](/LICENSE)

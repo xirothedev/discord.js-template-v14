@@ -1,0 +1,86 @@
+name: "✨ Feature request"
+description: "Suggest an idea or new feature for the project"
+title: "[FEATURE] <Short description of the feature>"
+labels:
+  - enhancement
+  - needs-triage
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ✨ Feature Description
+        Clearly describe the feature you want to suggest.
+  - type: textarea
+    id: feature
+    attributes:
+      label: "Proposed Feature"
+      description: "Describe the feature in detail."
+      placeholder: "A clear and concise description of the feature."
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## 🎯 Problem or Need
+        What problem does this feature solve or what need does it address?
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Problem/Need"
+      description: "Describe the problem or need for this feature."
+      placeholder: "What problem does this feature solve or what need does it address?"
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## 💡 Desired Solution
+        How would you like this feature to work?
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Desired Solution"
+      description: "Describe how you would like this feature to work."
+      placeholder: "A clear and concise description of the desired solution."
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## 🔄 Alternatives Considered
+        Have you tried or considered any alternative solutions?
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives Considered"
+      description: "Describe any alternative solutions or features you've considered."
+      placeholder: "List any alternatives you've considered."
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        ## 🖼️ Mockups or Illustrations (if applicable)
+        Attach images, videos, or mockups if they help explain your idea.
+  - type: textarea
+    id: mockups
+    attributes:
+      label: "Mockups/Illustrations"
+      description: "Paste links to images, videos, or mockups, or drag and drop files here."
+      placeholder: "Attach images, videos, or mockups if available."
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        ## 📝 Additional Information
+        Add any other information you think might be helpful.
+  - type: textarea
+    id: additional
+    attributes:
+      label: "Additional Information"
+      description: "Any other context or information."
+      placeholder: "Add any other information you think might be helpful."
+    validations:
+      required: false 

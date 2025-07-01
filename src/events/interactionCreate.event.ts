@@ -37,7 +37,7 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 				if (!result.success) {
 					await interaction.reply({
 						content: result.message ?? T(guild?.locale!, "error"),
-						flags: MessageFlags.Ephemeral
+						flags: MessageFlags.Ephemeral,
 					});
 
 					return;
@@ -49,7 +49,7 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 				create: { id: interaction.user.id },
 				update: {},
 			});
-			
+
 			// ----- Run command -----
 			return await command.execute(interaction, guild, user);
 		} catch (error) {
@@ -57,12 +57,12 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 			if (interaction.replied || interaction.deferred) {
 				await interaction.followUp({
 					content: T(guild?.locale!, "error"),
-					flags: MessageFlags.Ephemeral
+					flags: MessageFlags.Ephemeral,
 				});
 			} else {
 				await interaction.reply({
 					content: T(guild?.locale!, "error"),
-					flags: MessageFlags.Ephemeral
+					flags: MessageFlags.Ephemeral,
 				});
 			}
 		}
