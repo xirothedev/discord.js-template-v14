@@ -1,5 +1,13 @@
 # discord.js-template-v14
 
+[![Build Status](https://github.com/xirothedev/discord.js-template-v14/actions/workflows/build.yml/badge.svg)](https://github.com/xirothedev/discord.js-template-v14/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/xirothedev/discord.js-template-v14)](./LICENSE)
+[![Node.js Version](https://img.shields.io/badge/node-%3E=18.0.0-brightgreen)](https://nodejs.org/)
+[![Bun.js](https://img.shields.io/badge/Bun.js-%3E=1.0.0-black?logo=bun&logoColor=white)](https://bun.sh/)
+[![Discord.js v14](https://img.shields.io/badge/discord.js-v14-blue)](https://discord.js.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue)](https://www.typescriptlang.org/)
+[![Redis Support](https://img.shields.io/badge/Redis-Supported-red)](https://redis.io/)
+
 A modern, scalable, and extensible Discord bot template built with [discord.js v14](https://discord.js.org/), TypeScript, and Prisma ORM. This template is designed for rapid development of robust Discord bots, featuring multi-language support, modular command/event handling, and PostgreSQL integration.
 
 ## Features
@@ -7,6 +15,7 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 - **TypeScript-first**: Strict typing and modern JavaScript features.
 - **discord.js v14**: Latest Discord API features and best practices.
 - **Prisma ORM**: Type-safe database access with PostgreSQL.
+- **Redis support**: Fast caching, cooldowns, and distributed state management via [ioredis](https://github.com/luin/ioredis).
 - **Multi-language (i18n)**: Built-in localization with [i18next](https://www.i18next.com/).
 - **Modular architecture**: Easy to add commands, events, and features.
 - **Extensible client**: CustomClient class for shared utilities and services.
