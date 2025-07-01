@@ -128,24 +128,157 @@ enum Language {
 
 ### Adding Commands
 
-- **Prefix Commands:** Place new command files in `src/commands/prefix/` and extend `BasePrefixCommand`.
-- **Slash Commands:** Place new command files in `src/commands/slash/` and extend `BaseSlashCommand`.
+- **Prefix Commands:** Place new command files in `@/commands/prefix/` and extend `BasePrefixCommand`.
+- **Slash Commands:** Place new command files in `@/commands/slash/` and extend `BaseSlashCommand`.
 
 Each command class receives the `CustomClient` instance for shared services (logger, database, config, etc.).
 
 ### Adding Events
 
-- Place new event handler files in `src/events/` and ensure they extend the appropriate base event class.
+- Place new event handler files in `@/events/` and ensure they extend the appropriate base event class.
 
 ### Localization
 
-- Add or edit translation files in `src/locales/` (e.g., `EnglishUS.json`, `Vietnamese.json`).
+- Add or edit translation files in `src/locales/` (e.g., `EnglishUS/common.json`, `Vietnamese/common.json`).
 - The i18n system is initialized automatically and supports dynamic language switching.
 
 ### Database
 
 - Define new models in `prisma/schema/schema.prisma`.
 - Run `pnpm exec prisma migrate dev` after schema changes.
+
+### Usage example
+
+#### Prefix Command
+
+Create a new file in `src/commands/prefix/`, example: `ping.prefix.ts`:
+
+```ts
+import { BasePrefixCommand, CommandContext } from '@/structures';
+
+export default class PingCommand extends BasePrefixCommand {
+  name = 'ping';
+  description = 'Check bot latency';
+
+  async execute(ctx: CommandContext) {
+    await ctx.reply('Pong!');
+  }
+}
+```
+
+#### Slash Command
+
+Create a new file in `src/commands/slash/`, example: `hello.ts`:
+
+```ts
+import { BaseSlashCommand, SlashCommandContext } from '@/structures';
+import { SlashCommandBuilder } from 'discord.js';
+
+export default class HelloCommand extends BaseSlashCommand {
+  data = new SlashCommandBuilder()
+    .setName('hello')
+    .setDescription('Hello user!');
+
+  async execute(ctx: SlashCommandContext) {
+    await ctx.interaction.reply('Hello there!');
+  }
+}
+```
+
+#### Event
+
+Create a new file in `@/events/`, example: `ready.ts`:
+
+```ts
+import { BaseEvent } from '@/structures';
+
+export default class ReadyEvent extends BaseEvent<'ready'> {
+  name = 'ready';
+
+  async execute() {
+    console.log('Bot already!');
+  }
+}
+```
+
+#### Guards
+
+Guards are functions or classes used to check conditions before executing a command (e.g., permissions, cooldowns, bot state, etc.). They help you control access logic and protect commands from abuse or misuse.
+
+**Example: Cooldown Guard**
+
+A cooldown guard prevents users from spamming commands by enforcing a waiting period between uses.
+
+`@/guards/CooldownGuard.ts`:
+
+```ts
+import { T } from '@/handlers/i18n.handler';
+import type { CommandContext } from '@/structures/Guard';
+import { getPrefixCommand } from '@/utils/getPrefixCommand';
+
+const cooldowns = new Map<string, number>();
+
+export function CooldownGuard(seconds: number) {
+  return ({ interaction, message, guild }: CommandContext) => {
+    const userId = interaction?.user.id || message?.author.id;
+    let commandName: string;
+
+    if (interaction?.commandName) {
+      commandName = interaction.commandName;
+    } else if (message?.content) {
+      const result = getPrefixCommand(message.content, guild);
+      if (!result) {
+        return {
+          success: false,
+          message: T(guild?.locale || 'EnglishUS', 'error'),
+        };
+      }
+      commandName = result?.commandInput;
+    } else {
+      return {
+        success: false,
+        message: T(guild?.locale || 'EnglishUS', 'error'),
+      };
+    }
+
+    const key = `${userId}:${commandName}`;
+    const now = Date.now();
+    const expiresAt = cooldowns.get(key) || 0;
+
+    if (now < expiresAt) {
+      const remaining = Math.ceil((expiresAt - now) / 1000);
+      return {
+        success: false,
+        message: T(guild?.locale || 'EnglishUS', 'guard.cooldown', { ns: 'guards', seconds: remaining.toString() }),
+      };
+    }
+
+    cooldowns.set(key, now + seconds * 1000);
+    return { success: true };
+  };
+}
+```
+
+**How to use a guard in a command:**
+
+```ts
+import { BasePrefixCommand, CommandContext } from '@/structures';
+import { CooldownGuard } from '@/guards/CooldownGuard';
+import { UseGuards } from "@/decorators/useGuards.decorator";
+
+@UseGuards(CooldownGuard(10))
+export default class PingCommand extends BasePrefixCommand {
+  name = 'ping';
+  description = 'Check bot latency';
+  aliases = ["Pong"]
+
+  async execute(ctx: CommandContext) {
+    await ctx.reply('Pong!');
+  }
+}
+```
+
+You can combine multiple guards for a command. If any guard returns a failure, the command will not be executed.
 
 ## Development Standards
 
@@ -171,6 +304,14 @@ Each command class receives the `CustomClient` instance for shared services (log
 4. Push to the branch (`git push origin feature/YourFeature`)
 5. Create a new Pull Request
 
-## License
+## Resource
 
-[MIT](/LICENSE)
+- [CODE OF CONDUCT](/.github/CODE_OF_CONDUCT.md)
+- [COMMIT CONVENTION](/.github/COMMIT_CONVENTION.md)
+- [CONTRIBUTING](/.github/CONTRIBUTING.md)
+- [FUNDING](/.github/FUNDING.yml)
+- [PULL REQUEST TEMPLATE](/.github/PULL_REQUEST_TEMPLATE.md)
+- [LICENSE](/LICENSE)
+- [Discord server](https://discord.gg/GsYF4xceZZ)
+- [Facebook](https://www.facebook.com/xirothedev/)
+- [Email](lethanhtrung.trungle@gmail.com)
