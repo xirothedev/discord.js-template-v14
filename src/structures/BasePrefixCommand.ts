@@ -11,9 +11,7 @@ export abstract class BasePrefixCommand {
 	abstract description: string;
 	abstract aliases?: string[];
 
-	constructor(protected client: CustomClient) {
-		this.client = client;
-	}
+	constructor(protected client: CustomClient) {}
 
 	abstract execute(message: Message<true>, guild: Guild, user: User, args: string[]): Promise<void>;
 }

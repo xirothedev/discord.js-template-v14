@@ -22,8 +22,12 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 		let commandInput: string | undefined;
 		let guild: Guild | undefined;
 
+		const replyError = async (locale: string) => {
+			await message.reply(T(locale, "error"));
+		};
+
 		try {
-			const guild = await this.client.prisma.guild.upsert({
+			guild = await this.client.prisma.guild.upsert({
 				where: { id: message.guildId },
 				create: { id: message.guildId },
 				update: {},
@@ -49,7 +53,7 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 
 			// ----- Guard check -----
 			const guards = getGuards(Object.getPrototypeOf(command).constructor);
-			const context: CommandContext = { message };
+			const context: CommandContext = { message, guild, user, args };
 
 			for (const guard of guards) {
 				const result = await guard(context);
@@ -63,7 +67,7 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 			await command.execute(message, guild, user, args);
 		} catch (err) {
 			console.error(`❌ Error running command ${commandInput}:`, err);
-			await message.reply(T(guild?.locale || "EnglishUS", "error"));
+			await replyError(guild?.locale || "EnglishUS");
 		}
 	}
 }

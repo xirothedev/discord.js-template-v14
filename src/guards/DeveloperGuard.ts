@@ -11,7 +11,10 @@ export function DeveloperGuard(): Guard {
 	return ({ message, interaction, guild }: CommandContext) => {
 		const userId = message?.author?.id || interaction?.user?.id;
 		if (!userId) {
-			return { success: false, message: "❌ Không thể xác định người dùng." };
+			return {
+				success: false,
+				message: T(guild?.locale || "EnglishUS", "cannot_identify_user"),
+			};
 		}
 
 		if (!client.config.developers.includes(userId)) {

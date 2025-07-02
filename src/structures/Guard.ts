@@ -20,3 +20,7 @@ export type GuardResult = {
 };
 
 export type Guard = (context: CommandContext) => Promise<GuardResult> | GuardResult;
+
+export function getUserId(ctx: CommandContext): string | undefined {
+	return ctx.message?.author?.id || ctx.interaction?.user?.id;
+}

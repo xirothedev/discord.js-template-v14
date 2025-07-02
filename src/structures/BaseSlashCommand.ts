@@ -9,9 +9,7 @@ import type { Guild, User } from "prisma/generated";
 export abstract class BaseSlashCommand {
 	abstract data: SlashCommandBuilder;
 
-	constructor(protected client: CustomClient) {
-		this.client = client;
-	}
+	constructor(protected client: CustomClient) {}
 
-	abstract execute(interaction: ChatInputCommandInteraction, guild: Guild | null, user: User): Promise<void>;
+	abstract execute(interaction: ChatInputCommandInteraction, guild: Guild | undefined, user: User): Promise<void>;
 }

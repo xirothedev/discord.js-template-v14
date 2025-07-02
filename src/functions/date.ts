@@ -38,8 +38,8 @@ const dateMasks = {
  */
 export const isValidTimezone = (tz: string) => {
 	try {
-		const d = dayjs().tz(tz);
-		return !!d;
+		const day = dayjs().tz(tz);
+		return !!day;
 	} catch {
 		return false;
 	}

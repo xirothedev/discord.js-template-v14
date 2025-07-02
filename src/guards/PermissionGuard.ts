@@ -4,14 +4,16 @@
  *--------------------------------------------------------------------------------------------*/
 
 import type { CommandContext, Guard } from "@/structures/Guard";
+import { T } from "@/handlers/i18n.handler";
 
 export function PermissionGuard(...permissions: string[]): Guard {
-	return ({ message, interaction }: CommandContext) => {
+	return ({ message, interaction, guild }: CommandContext) => {
 		const member = message?.member || interaction?.member;
+		const locale = guild?.locale || "EnglishUS";
 		if (!member || !("permissions" in member)) {
 			return {
 				success: false,
-				message: "❌ Không thể xác minh quyền của bạn.",
+				message: T(locale, "permission.cannotVerify"),
 			};
 		}
 
@@ -20,7 +22,7 @@ export function PermissionGuard(...permissions: string[]): Guard {
 		if (missing.length > 0) {
 			return {
 				success: false,
-				message: `❌ Bạn cần quyền: \`${missing.join(", ")}\` để dùng lệnh này.`,
+				message: T(locale, "permission.missing", { permissions: missing.join(", ") }),
 			};
 		}
 

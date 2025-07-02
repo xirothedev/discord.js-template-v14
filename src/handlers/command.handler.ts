@@ -17,7 +17,8 @@ export const loadSlashCommands = async (client: CustomClient) => {
 	const guildCommandsMap = new Map<string, BaseSlashCommand[]>();
 
 	for (const file of files) {
-		const { [Object.keys(require(file))[0]]: Command } = await import(file);
+		const module = await import(file);
+		const Command = module[Object.keys(module)[0]];
 		const command = new Command(client) as BaseSlashCommand;
 
 		const privateGuildId = getPrivateGuildId(Object.getPrototypeOf(command).constructor);
@@ -58,7 +59,8 @@ export const loadPrefixCommands = async (client: CustomClient) => {
 	const files = readCommandFiles(join(__dirname, "../commands/prefix"), ".prefix.ts");
 
 	for (const file of files) {
-		const { [Object.keys(require(file))[0]]: Command } = await import(file);
+		const module = await import(file);
+		const Command = module[Object.keys(module)[0]];
 		const command = new Command(client) as BasePrefixCommand;
 		client.prefixCommands.set(command.name, command);
 	}

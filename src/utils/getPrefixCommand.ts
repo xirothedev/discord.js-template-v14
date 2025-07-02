@@ -10,8 +10,9 @@ import type { Guild } from "prisma/generated";
 export function getPrefixCommand(content: string, guild?: Guild) {
 	let prefix: string;
 
-	if (content.toLowerCase().startsWith(guild?.prefix?.toLowerCase() || client.getEnv("PREFIX").toLowerCase())) {
-		prefix = client.getEnv("PREFIX");
+	const guildPrefix = guild?.prefix ?? client.getEnv<string>("PREFIX");
+	if (content.toLowerCase().startsWith(guildPrefix.toLowerCase())) {
+		prefix = guildPrefix;
 	} else if (client.user && content.startsWith(userMention(client.user.id))) {
 		prefix = userMention(client.user.id);
 	} else {
