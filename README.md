@@ -2,7 +2,6 @@
 
 [![Build Status](https://github.com/xirothedev/discord.js-template-v14/actions/workflows/build.yml/badge.svg)](https://github.com/xirothedev/discord.js-template-v14/actions/workflows/build.yml)
 [![License](https://img.shields.io/github/license/xirothedev/discord.js-template-v14)](./LICENSE)
-[![Node.js Version](https://img.shields.io/badge/node-%3E=18.0.0-brightgreen)](https://nodejs.org/)
 [![Bun.js](https://img.shields.io/badge/Bun.js-%3E=1.0.0-black?logo=bun&logoColor=white)](https://bun.sh/)
 [![Discord.js v14](https://img.shields.io/badge/discord.js-v14-blue)](https://discord.js.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue)](https://www.typescriptlang.org/)
@@ -153,7 +152,6 @@ if (now < expiresAt) {
 
 ### Prerequisites
 
-- Node.js (v18+ recommended)
 - PostgreSQL database
 - [Bun](https://bun.sh/) (for running scripts, optional but recommended)
 
