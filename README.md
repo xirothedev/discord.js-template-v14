@@ -7,7 +7,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue)](https://www.typescriptlang.org/)
 [![Redis Support](https://img.shields.io/badge/Redis-Supported-red)](https://redis.io/)
 
-A modern, scalable, and extensible Discord bot template built with [discord.js v14](https://discord.js.org/), TypeScript, and Prisma ORM. This template is designed for rapid development of robust Discord bots, featuring multi-language support, modular command/event handling, and PostgreSQL integration.
+A modern, scalable, and extensible Discord bot template built with [discord.js v14](https://discord.js.org/), redis, TypeScript, and Prisma ORM. This template is designed for rapid development of robust Discord bots, featuring multi-language support, modular command/event handling, and PostgreSQL integration.
 
 ## Features
 
@@ -47,6 +47,7 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 │   ├── guards/           # Command guards/middleware
 │   ├── handlers/         # Command/event/i18n loaders
 │   ├── locales/          # i18n translation files
+│   ├── store/            # Store config (redis, etc.)
 │   ├── structures/       # Base classes for commands/events
 │   ├── typings/          # Custom TypeScript types
 │   ├── utils/            # Utility modules (logger, etc.)
