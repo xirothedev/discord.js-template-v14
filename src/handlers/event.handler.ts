@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) xirothedev. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import { readdirSync } from "node:fs";
 import path from "node:path";
 import type { BaseEvent } from "@/structures/BaseEvent";

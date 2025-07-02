@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) xirothedev. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import { Locale } from "discord.js";
 import i18next from "i18next";
 import Backend, { type FsBackendOptions } from "i18next-fs-backend";

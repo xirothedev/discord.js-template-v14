@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) xirothedev. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import { T } from "@/handlers/i18n.handler";
 import type { CommandContext } from "@/structures/Guard";
 import { getPrefixCommand } from "@/utils/getPrefixCommand";

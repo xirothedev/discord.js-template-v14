@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) xirothedev. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 import type { CommandContext, Guard } from "@/structures/Guard";
 import { client } from "..";
 import { T } from "@/handlers/i18n.handler";

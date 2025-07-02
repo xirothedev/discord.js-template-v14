@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) xirothedev. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 /** biome-ignore-all lint/suspicious/noExplicitAny: handle decorator */
 import "reflect-metadata";
 import type { Guard } from "@/structures/Guard";
