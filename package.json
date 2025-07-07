@@ -28,7 +28,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@prisma/client": "^6.10.1",
+		"@prisma/client": "^6.11.1",
 		"dayjs": "^1.11.13",
 		"discord.js": "^14.21.0",
 		"i18next": "25.3.0",
@@ -52,7 +52,7 @@
 		"globals": "^16.3.0",
 		"husky": "^9.1.7",
 		"prettier": "^3.6.2",
-		"prisma": "^6.10.1"
+		"prisma": "^6.11.1"
 	},
 	"signale": {
 		"displayScope": true,
