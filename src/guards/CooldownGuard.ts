@@ -41,7 +41,7 @@ export function CooldownGuard(seconds: number) {
 			const remaining = Math.ceil((expiresAt - now) / 1000);
 			return {
 				success: false,
-				message: T(guild?.locale || "EnglishUS", "guard.cooldown", { ns: "guards", seconds: remaining.toString() }),
+				message: T(guild?.locale || "EnglishUS", "cooldown", { ns: "guards", seconds: remaining.toString() }),
 			};
 		} else if (expiresAt) {
 			await deleteAddition(key);

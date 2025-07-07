@@ -4,6 +4,8 @@
 	"developer_only": "⚠️ Lệnh này chỉ dành cho nhà phát triển.",
 	"permission": {
 		"cannotVerify": "❌ Không thể xác minh quyền của bạn.",
-		"missing": "❌ Bạn cần quyền: `{permissions}` để dùng lệnh này."
-	}
+		"missing": "❌ Bạn cần quyền: `{permissions}` để dùng lệnh này.",
+		"clientMissing": "❌ Tôi cần quyền: `{permissions}` để thực hiện lệnh này."
+	},
+	"owner_only": "❌ Lệnh này chỉ dành cho Owner."
 }

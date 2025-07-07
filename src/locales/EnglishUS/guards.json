@@ -4,6 +4,8 @@
 	"developer_only": "⚠️ This command is for developers only.",
 	"permission": {
 		"cannotVerify": "❌ Unable to verify your permissions.",
-		"missing": "❌ You need the following permissions to use this command: `{permissions}`."
-	}
+		"missing": "❌ You need the following permissions to use this command: `{permissions}`.",
+		"clientMissing": "❌ I need the following permissions to do this command: `{permissions}`."
+	},
+	"owner_only": "❌ This command is for Owner only."
 }

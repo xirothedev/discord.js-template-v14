@@ -1,4 +1,6 @@
 {
 	"error": "An error occurred.",
-	"cannot_identify_user": "❌ Cannot identify user."
+	"cannot_identify_user": "❌ Cannot identify user.",
+	"no_admin_permission": "You need administrator permission to do this!",
+	"argument_type_error": "The argument **{argName}** at position **{argPosition}** must be a `{argValue}`."
 }
