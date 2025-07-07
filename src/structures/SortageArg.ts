@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { config } from "@/config";
-import { T } from "@/handlers/i18n.handler";
-import { type Message, EmbedBuilder } from "discord.js";
-import type { Language } from "prisma/generated";
+import { config } from '@/config';
+import { T } from '@/handlers/i18n.handler';
+import { type Message, EmbedBuilder } from 'discord.js';
+import type { Language } from 'prisma/generated';
 
 export class MissingArgError {
 	constructor(
@@ -15,7 +15,9 @@ export class MissingArgError {
 	) {}
 
 	public async returnError(argName: string, argPosition: number, argValue: string, customMessage?: string) {
-		await this.message.reply({ embeds: [this.getEmbedMessage(argName, argPosition, argValue, customMessage)] });
+		await this.message.reply({
+			embeds: [this.getEmbedMessage(argName, argPosition, argValue, customMessage)],
+		});
 	}
 
 	public getEmbedMessage(argName: string, argPosition: number, argValue: string, customMessage?: string) {
@@ -27,6 +29,10 @@ export class MissingArgError {
 
 	public getContentMessage(argName: string, argPosition: number, argValue: string, customMessage?: string) {
 		if (customMessage) return customMessage;
-		return T(this.language, "argument_type_error", { argName, argPosition: argPosition.toString(), argValue });
+		return T(this.language, 'argument_type_error', {
+			argName,
+			argPosition: argPosition.toString(),
+			argValue,
+		});
 	}
 }

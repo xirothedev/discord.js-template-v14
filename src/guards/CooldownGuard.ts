@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { T } from "@/handlers/i18n.handler";
-import type { CommandContext } from "@/structures/Guard";
-import { getPrefixCommand } from "@/utils/getPrefixCommand";
-import { getAddition, setAddition, deleteAddition } from "@/store/redisStore";
+import { T } from '@/handlers/i18n.handler';
+import type { CommandContext } from '@/structures/Guard';
+import { getPrefixCommand } from '@/utils/getPrefixCommand';
+import { getAddition, setAddition, deleteAddition } from '@/store/redisStore';
 
 export function CooldownGuard(seconds: number) {
 	return async ({ interaction, message, guild }: CommandContext) => {
@@ -20,7 +20,7 @@ export function CooldownGuard(seconds: number) {
 			if (!result) {
 				return {
 					success: false,
-					message: T(guild?.locale || "EnglishUS", "error"),
+					message: T(guild?.locale || 'EnglishUS', 'error'),
 				};
 			}
 
@@ -28,20 +28,23 @@ export function CooldownGuard(seconds: number) {
 		} else {
 			return {
 				success: false,
-				message: T(guild?.locale || "EnglishUS", "error"),
+				message: T(guild?.locale || 'EnglishUS', 'error'),
 			};
 		}
 
 		const key = `cooldown:${userId}:${commandName}`;
 
 		const now = Date.now();
-		const expiresAt = (await getAddition(key)) || 0;
+		const expiresAt = (await getAddition<number>(key)) || 0;
 
 		if (now < expiresAt) {
 			const remaining = Math.ceil((expiresAt - now) / 1000);
 			return {
 				success: false,
-				message: T(guild?.locale || "EnglishUS", "cooldown", { ns: "guards", seconds: remaining.toString() }),
+				message: T(guild?.locale || 'EnglishUS', 'cooldown', {
+					ns: 'guards',
+					seconds: remaining.toString(),
+				}),
 			};
 		} else if (expiresAt) {
 			await deleteAddition(key);

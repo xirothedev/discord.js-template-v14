@@ -1,18 +1,17 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: discordjs-app
-    restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      - NODE_ENV=production
-    # depends_on:
-      # - db
-      # - cache
-
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: discordjs-app
+        restart: unless-stopped
+        env_file:
+            - .env
+        environment:
+            - NODE_ENV=production
+        # depends_on:
+        # - db
+        # - cache
 #   db:
 #     image: postgres:17-alpine
 #     container_name: discordjs-db
@@ -26,16 +25,16 @@ services:
 #     volumes:
 #       - db_data:/var/lib/postgresql/data
 
-  # cache:
-  #   image: redis:8.0.2-alpine3.21
-  #   restart: always
-  #   ports:
-  #     - '6379:6379'
-  #   command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-  #   volumes: 
-  #     - cache:/data
+# cache:
+#   image: redis:8.0.2-alpine3.21
+#   restart: always
+#   ports:
+#     - '6379:6379'
+#   command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+#   volumes:
+#     - cache:/data
 
 # volumes:
 #   cache:
 #     driver: local
-#   db_data: 
+#   db_data:

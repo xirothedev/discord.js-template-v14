@@ -1,0 +1,6 @@
+# Ignore artifacts:
+.github
+.husky
+node_modules
+bun.lock
+prisma/generated

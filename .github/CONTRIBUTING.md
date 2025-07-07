@@ -23,6 +23,7 @@ Do not open issues for general support questions as we want to keep GitHub issue
 Instead, we recommend using our [Discord Server](https://discord.gg/GsYF4xceZZ) to ask support-related questions.
 
 Discord is a much better place to ask questions since:
+
 - There are community people willing to help
 - Questions and answers stay available for public viewing
 
@@ -81,7 +82,9 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 The maintainers reserve the right not to accept pull requests from community members who haven't been good citizens of the community. Such behavior includes not following the [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ##### Addressing review feedback
+
 If we ask for changes via code reviews then:
+
 1. Make the required updates to the code.
 2. Create a fixup commit and push to your GitHub repository:
    ```sh
@@ -90,7 +93,9 @@ If we ask for changes via code reviews then:
    ```
 
 ##### Updating the commit message
+
 A reviewer might suggest changes to a commit message. To update the commit message of the last commit on your branch:
+
 1. Check out your branch:
    ```sh
    git checkout my-fix-branch
@@ -105,7 +110,9 @@ A reviewer might suggest changes to a commit message. To update the commit messa
    ```
 
 #### After your pull request is merged
+
 After your pull request is merged, you can safely delete your branch and pull the changes from the main repository:
+
 - Delete the remote branch on GitHub either through the GitHub web UI or your local shell:
   ```sh
   git push origin --delete my-fix-branch
@@ -126,6 +133,7 @@ After your pull request is merged, you can safely delete your branch and pull th
 ## Coding Rules
 
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
+
 - All features or bug fixes **must be tested**.
 - All public API methods **must be documented**.
 
@@ -144,9 +152,11 @@ Each commit message consists of a **header**, a **body**, and a **footer**.
 ```
 
 The `header` is mandatory and must conform to the format:
+
 ```
 <type>(<scope>): <short summary>
 ```
+
 - **type**: build|ci|docs|feat|fix|perf|refactor|test
 - **scope**: api|commands|config|entities|events|guards|i18n|services|utils|cli|#{issue_id}|(empty)
 - **summary**: imperative, present tense, no period at the end
@@ -156,6 +166,7 @@ The `body` is mandatory for all commits except for those of type "docs". When pr
 The `footer` is optional. It can contain information about breaking changes, deprecations, or references to issues/PRs.
 
 ### Revert commits
+
 If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of the reverted commit.
 
 ## Signing the CLA
@@ -165,4 +176,4 @@ Please sign our Contributor License Agreement (CLA) before sending pull requests
 - For individuals, we have a simple click-through form.
 - For corporations, we'll need you to print, sign, and send the form.
 
-If you have more than one GitHub account, or multiple email addresses associated with a single GitHub account, you must sign the CLA using the primary email address of the GitHub account used to author Git commits and send pull requests. 
+If you have more than one GitHub account, or multiple email addresses associated with a single GitHub account, you must sign the CLA using the primary email address of the GitHub account used to author Git commits and send pull requests.

@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { readdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 
 export const readCommandFiles = (dir: string, ext: string): string[] => {
 	const files: string[] = [];

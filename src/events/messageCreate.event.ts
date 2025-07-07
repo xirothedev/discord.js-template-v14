@@ -3,18 +3,17 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-/** biome-ignore-all lint/style/noNonNullAssertion: find command */
-import { getGuards } from "@/decorators/useGuards.decorator";
-import { T } from "@/handlers/i18n.handler";
-import { BaseEvent } from "@/structures/BaseEvent";
-import type { CommandContext } from "@/structures/Guard";
-import { getPrefixCommand } from "@/utils/getPrefixCommand";
-import type { Message } from "discord.js";
-import type { Guild } from "prisma/generated";
+import { getGuards } from '@/decorators/useGuards.decorator';
+import { T } from '@/handlers/i18n.handler';
+import { BaseEvent } from '@/structures/BaseEvent';
+import type { CommandContext } from '@/structures/Guard';
+import { getPrefixCommand } from '@/utils/getPrefixCommand';
+import type { Message } from 'discord.js';
+import type { Guild } from 'prisma/generated';
 
-export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
+export class MessageCreateEvent extends BaseEvent<'messageCreate'> {
 	constructor(client: CustomClient) {
-		super(client, "messageCreate");
+		super(client, 'messageCreate');
 	}
 
 	async execute(message: Message<boolean>) {
@@ -23,7 +22,7 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 		let guild: Guild | undefined;
 
 		const replyError = async (locale: string) => {
-			await message.reply(T(locale, "error"));
+			await message.reply(T(locale, 'error'));
 		};
 
 		try {
@@ -40,7 +39,7 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 			const { args } = result;
 
 			const command =
-				this.client.prefixCommands.get(commandInput!) ||
+				this.client.prefixCommands.get(commandInput) ||
 				this.client.prefixCommands.find((cmd) => cmd.aliases?.includes(commandInput!));
 
 			if (!command) return;
@@ -52,13 +51,14 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 			});
 
 			// ----- Guard check -----
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
 			const guards = getGuards(Object.getPrototypeOf(command).constructor);
 			const context: CommandContext = { message, guild, user, args };
 
 			for (const guard of guards) {
 				const result = await guard(context);
 				if (!result.success) {
-					await message.reply(result.message ?? T(guild.locale, "error"));
+					await message.reply(result.message ?? T(guild.locale, 'error'));
 					return;
 				}
 			}
@@ -67,7 +67,7 @@ export class MessageCreateEvent extends BaseEvent<"messageCreate"> {
 			await command.execute(message, guild, user, args);
 		} catch (err) {
 			console.error(`❌ Error running command ${commandInput}:`, err);
-			await replyError(guild?.locale || "EnglishUS");
+			await replyError(guild?.locale || 'EnglishUS');
 		}
 	}
 }

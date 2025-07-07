@@ -3,17 +3,17 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { getGuards } from "@/decorators/useGuards.decorator";
-import { T } from "@/handlers/i18n.handler";
-import { client } from "@/index";
-import { BaseEvent } from "@/structures/BaseEvent";
-import type { CommandContext } from "@/structures/Guard";
-import { MessageFlags, type CacheType, type Interaction } from "discord.js";
-import type { Guild, User } from "prisma/generated";
+import { getGuards } from '@/decorators/useGuards.decorator';
+import { T } from '@/handlers/i18n.handler';
+import { client } from '@/index';
+import { BaseEvent } from '@/structures/BaseEvent';
+import type { CommandContext } from '@/structures/Guard';
+import { MessageFlags, type CacheType, type Interaction } from 'discord.js';
+import type { Guild, User } from 'prisma/generated';
 
-export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
+export class InteractionCreateEvent extends BaseEvent<'interactionCreate'> {
 	constructor(client: CustomClient) {
-		super(client, "interactionCreate");
+		super(client, 'interactionCreate');
 	}
 
 	async execute(interaction: Interaction<CacheType>) {
@@ -26,7 +26,7 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 		let user: User;
 
 		const replyError = async (locale: string) => {
-			const errorMsg = T(locale, "error");
+			const errorMsg = T(locale, 'error');
 			if (interaction.replied || interaction.deferred) {
 				await interaction.followUp({
 					content: errorMsg,
@@ -56,12 +56,13 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 			});
 		} catch (error) {
 			console.error(`❌ error upserting user/guild:`, error);
-			await replyError(guild?.locale || "EnglishUS");
+			await replyError(guild?.locale || 'EnglishUS');
 			return;
 		}
 
 		try {
 			// ----- Guard check -----
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
 			const guards = getGuards(Object.getPrototypeOf(command).constructor);
 			const context: CommandContext = { interaction, guild, user };
 
@@ -69,7 +70,7 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 				const result = await guard(context);
 				if (!result.success) {
 					await interaction.reply({
-						content: result.message ?? T(guild?.locale || "EnglishUS", "error"),
+						content: result.message ?? T(guild?.locale || 'EnglishUS', 'error'),
 						flags: MessageFlags.Ephemeral,
 					});
 					return;
@@ -80,7 +81,7 @@ export class InteractionCreateEvent extends BaseEvent<"interactionCreate"> {
 			await command.execute(interaction, guild, user);
 		} catch (error) {
 			console.error(`❌ error running slash command ${interaction.commandName}:`, error);
-			await replyError(guild?.locale || "EnglishUS");
+			await replyError(guild?.locale || 'EnglishUS');
 		}
 	}
 }

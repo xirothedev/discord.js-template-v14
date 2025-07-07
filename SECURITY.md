@@ -5,22 +5,22 @@ This document outlines the security policies and best practices for handling fil
 ## 1. File Upload Restrictions
 
 - **Allowed File Types:**  
-  Only the following file types are permitted for upload:  
-  - Images: `.jpg`, `.jpeg`, `.png`, `.gif`
-  - Documents: `.pdf`, `.docx`, `.xlsx`
+  Only the following file types are permitted for upload:
+    - Images: `.jpg`, `.jpeg`, `.png`, `.gif`
+    - Documents: `.pdf`, `.docx`, `.xlsx`
 - **Maximum File Size:**  
   Each uploaded file must not exceed **10MB**.
-- **File Name Validation:**  
-  - File names must not contain special characters or path traversal sequences (`../`).
-  - File extensions must match the actual file content (MIME type check).
+- **File Name Validation:**
+    - File names must not contain special characters or path traversal sequences (`../`).
+    - File extensions must match the actual file content (MIME type check).
 
 ## 2. Storage and Access
 
 - **Upload Directory:**  
   All uploaded files are stored in a dedicated, non-public directory (`/uploads`).
-- **Access Control:**  
-  - Only authenticated users can upload or download files.
-  - Users can only access files they own or have been granted permission to view.
+- **Access Control:**
+    - Only authenticated users can upload or download files.
+    - Users can only access files they own or have been granted permission to view.
 - **Temporary Files:**  
   Temporary files are deleted after processing to prevent unauthorized access.
 
@@ -47,4 +47,4 @@ If you discover a security vulnerability related to file handling, please report
 
 ---
 
-_Last updated: 2025-07-02_ 
+_Last updated: 2025-07-02_

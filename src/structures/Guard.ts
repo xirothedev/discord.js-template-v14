@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { Message, ChatInputCommandInteraction } from "discord.js";
-import type { Guild, User } from "prisma/generated";
+import type { Message, ChatInputCommandInteraction } from 'discord.js';
+import type { Guild, User } from 'prisma/generated';
 
 export type CommandContext = {
 	interaction?: ChatInputCommandInteraction;

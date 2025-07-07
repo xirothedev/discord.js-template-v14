@@ -3,13 +3,13 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { getEnvOrThrow } from "@/utils/getEnvOrThrow";
-import Redis from "ioredis";
+import { getEnvOrThrow } from '@/utils/getEnvOrThrow';
+import Redis from 'ioredis';
 
 const redis = new Redis({
-	host: getEnvOrThrow("REDIS_HOST"),
-	port: getEnvOrThrow("REDIS_PORT"),
-	password: getEnvOrThrow("REDIS_PASSWORD"),
+	host: getEnvOrThrow('REDIS_HOST'),
+	port: getEnvOrThrow('REDIS_PORT'),
+	password: getEnvOrThrow('REDIS_PASSWORD'),
 	db: 0,
 });
 
@@ -21,7 +21,7 @@ const redis = new Redis({
  * @returns {Promise<void>}
  */
 export async function setAddition(key: string, value: string | { [x: string]: string }, expireSeconds = 3600) {
-	await redis.set(key, JSON.stringify(value), "EX", expireSeconds);
+	await redis.set(key, JSON.stringify(value), 'EX', expireSeconds);
 }
 
 /**
@@ -29,8 +29,9 @@ export async function setAddition(key: string, value: string | { [x: string]: st
  * @param {string} key - The key to retrieve.
  * @returns {Promise<any|null>} - The stored value, or null if not found.
  */
-export async function getAddition(key: string) {
+export async function getAddition<T>(key: string): Promise<T | null> {
 	const data = await redis.get(key);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 	return data ? JSON.parse(data) : null;
 }
 

@@ -19,7 +19,7 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 - **Modular architecture**: Easy to add commands, events, and features.
 - **Extensible client**: CustomClient class for shared utilities and services.
 - **Comprehensive logging**: Uses [signale](https://github.com/klaussinani/signale) for structured logs.
-- **Linting & formatting**: Enforced by [Biome](https://biomejs.dev/).
+- **Linting & formatting**: Enforced by [Prettier](https://prettier.io/docs/install/).
 
 ## Tech Stack
 
@@ -28,7 +28,7 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 - **Database**: PostgreSQL (via Prisma)
 - **Package Manager**: bun (preferred)
 - **Runtime**: Bun.js
-- **Linting/Formatting**: Biome
+- **Linting/Formatting**: Prettier
 
 ## Project Structure
 
@@ -52,15 +52,18 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 │   ├── typings/          # Custom TypeScript types
 │   ├── utils/            # Utility modules (logger, etc.)
 │   └── index.ts          # Entry point
-├── package.json
-├── tsconfig.json
-├── biome.json
-└── bun.lock
+├── package.json          # Project info & scripts
+├── tsconfig.json         # TypeScript config
+├── .prettierrc.json      # Prettier configuration
+├── .prettierignore       # Files/folders ignored by Prettier
+├── eslint.config.mjs     # ESLint configuration
+└── bun.lock              # Bun lockfile (if using Bun)
 ```
 
 ## Database Models (Prisma)
 
 **prisma/schema/schema.prisma:**
+
 ```prisma
 model User {
   id String @id
@@ -86,42 +89,43 @@ This template supports Redis for fast, ephemeral storage—ideal for features li
 
 1. **Start a Redis server** (locally or via Docker):
 
-   ```sh
-   docker run -d --name redis -p 6379:6379 redis:alpine
-   ```
+    ```sh
+    docker run -d --name redis -p 6379:6379 redis:alpine
+    ```
 
 2. **Configure environment variables** in your `.env` file:
 
-   ```env
-   REDIS_HOST=localhost
-   REDIS_PORT=6379
-   REDIS_PASSWORD=yourpassword  # (optional, if set)
-   ```
+    ```env
+    REDIS_HOST=localhost
+    REDIS_PORT=6379
+    REDIS_PASSWORD=yourpassword  # (optional, if set)
+    ```
 
 3. **Install dependencies** (if not already):
 
-   ```sh
-   bun add ioredis
-   ```
+    ```sh
+    bun add ioredis
+    ```
 
 #### Usage Example
 
 You can use the provided utility functions to interact with Redis:
 
 ```ts
-import { setAddition, getAddition, deleteAddition } from "@/store/redisStore";
+import { setAddition, getAddition, deleteAddition } from '@/store/redisStore';
 
 // Store a value with a key and expiration (in seconds)
-await setAddition("mykey", { foo: "bar" }, 600);
+await setAddition('mykey', { foo: 'bar' }, 600);
 
 // Retrieve a value by key
-const value = await getAddition("mykey");
+const value = await getAddition('mykey');
 
 // Delete a key
-await deleteAddition("mykey");
+await deleteAddition('mykey');
 ```
 
 **Other available functions:**
+
 - `existsAddition(key)` – Check if a key exists.
 - `expireAddition(key, seconds)` – Set a new expiration for a key.
 - `getTTLAddition(key)` – Get the remaining TTL (in seconds) for a key.
@@ -137,9 +141,9 @@ const now = Date.now();
 const expiresAt = (await getAddition(key)) || 0;
 
 if (now < expiresAt) {
-  // Still on cooldown
+	// Still on cooldown
 } else {
-  await setAddition(key, String(now + seconds * 1000), seconds);
+	await setAddition(key, String(now + seconds * 1000), seconds);
 }
 ```
 
@@ -159,40 +163,44 @@ if (now < expiresAt) {
 ### Installation
 
 1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/xirothedev/discord.js-template-v14
-   cd discord.js-template-v14
-   ```
+
+    ```sh
+    git clone https://github.com/xirothedev/discord.js-template-v14
+    cd discord.js-template-v14
+    ```
 
 2. **Install dependencies:**
-   ```sh
-   bun install
-   ```
+
+    ```sh
+    bun install
+    ```
 
 3. **Configure environment variables:**
-   - Copy `.env.example` to `.env` and fill in required values (e.g., `TOKEN`, `CLIENT_ID`, `DATABASE_URL`).
+    - Copy `.env.example` to `.env` and fill in required values (e.g., `TOKEN`, `CLIENT_ID`, `DATABASE_URL`).
 
 4. **Set up the database:**
-   ```sh
-   bun x prisma migrate dev
-   ```
+
+    ```sh
+    bun x prisma migrate dev
+    ```
 
 5. **Generate Prisma client:**
-   ```sh
-   bun x prisma generate
-   ```
+    ```sh
+    bun x prisma generate
+    ```
 
 ### Running the Bot
 
 - **Development mode (with hot-reload):**
-  ```sh
-  bun dev
-  ```
+
+    ```sh
+    bun dev
+    ```
 
 - **Production mode:**
-  ```sh
-  bun start
-  ```
+    ```sh
+    bun start
+    ```
 
 ### Debugging
 
@@ -231,12 +239,12 @@ Create a new file in `src/commands/prefix/`, example: `ping.prefix.ts`:
 import { BasePrefixCommand, CommandContext } from '@/structures';
 
 export default class PingCommand extends BasePrefixCommand {
-  name = 'ping';
-  description = 'Check bot latency';
+	name = 'ping';
+	description = 'Check bot latency';
 
-  async execute(ctx: CommandContext) {
-    await ctx.reply('Pong!');
-  }
+	async execute(ctx: CommandContext) {
+		await ctx.reply('Pong!');
+	}
 }
 ```
 
@@ -249,13 +257,11 @@ import { BaseSlashCommand, SlashCommandContext } from '@/structures';
 import { SlashCommandBuilder } from 'discord.js';
 
 export default class HelloCommand extends BaseSlashCommand {
-  data = new SlashCommandBuilder()
-    .setName('hello')
-    .setDescription('Hello user!');
+	data = new SlashCommandBuilder().setName('hello').setDescription('Hello user!');
 
-  async execute(ctx: SlashCommandContext) {
-    await ctx.interaction.reply('Hello there!');
-  }
+	async execute(ctx: SlashCommandContext) {
+		await ctx.interaction.reply('Hello there!');
+	}
 }
 ```
 
@@ -267,11 +273,11 @@ Create a new file in `@/events/`, example: `ready.ts`:
 import { BaseEvent } from '@/structures';
 
 export default class ReadyEvent extends BaseEvent<'ready'> {
-  name = 'ready';
+	name = 'ready';
 
-  async execute() {
-    console.log('Bot already!');
-  }
+	async execute() {
+		console.log('Bot already!');
+	}
 }
 ```
 
@@ -293,43 +299,46 @@ import { getPrefixCommand } from '@/utils/getPrefixCommand';
 const cooldowns = new Map<string, number>();
 
 export function CooldownGuard(seconds: number) {
-  return ({ interaction, message, guild }: CommandContext) => {
-    const userId = interaction?.user.id || message?.author.id;
-    let commandName: string;
+	return ({ interaction, message, guild }: CommandContext) => {
+		const userId = interaction?.user.id || message?.author.id;
+		let commandName: string;
 
-    if (interaction?.commandName) {
-      commandName = interaction.commandName;
-    } else if (message?.content) {
-      const result = getPrefixCommand(message.content, guild);
-      if (!result) {
-        return {
-          success: false,
-          message: T(guild?.locale || 'EnglishUS', 'error'),
-        };
-      }
-      commandName = result?.commandInput;
-    } else {
-      return {
-        success: false,
-        message: T(guild?.locale || 'EnglishUS', 'error'),
-      };
-    }
+		if (interaction?.commandName) {
+			commandName = interaction.commandName;
+		} else if (message?.content) {
+			const result = getPrefixCommand(message.content, guild);
+			if (!result) {
+				return {
+					success: false,
+					message: T(guild?.locale || 'EnglishUS', 'error'),
+				};
+			}
+			commandName = result?.commandInput;
+		} else {
+			return {
+				success: false,
+				message: T(guild?.locale || 'EnglishUS', 'error'),
+			};
+		}
 
-    const key = `${userId}:${commandName}`;
-    const now = Date.now();
-    const expiresAt = cooldowns.get(key) || 0;
+		const key = `${userId}:${commandName}`;
+		const now = Date.now();
+		const expiresAt = cooldowns.get(key) || 0;
 
-    if (now < expiresAt) {
-      const remaining = Math.ceil((expiresAt - now) / 1000);
-      return {
-        success: false,
-        message: T(guild?.locale || 'EnglishUS', 'guard.cooldown', { ns: 'guards', seconds: remaining.toString() }),
-      };
-    }
+		if (now < expiresAt) {
+			const remaining = Math.ceil((expiresAt - now) / 1000);
+			return {
+				success: false,
+				message: T(guild?.locale || 'EnglishUS', 'guard.cooldown', {
+					ns: 'guards',
+					seconds: remaining.toString(),
+				}),
+			};
+		}
 
-    cooldowns.set(key, now + seconds * 1000);
-    return { success: true };
-  };
+		cooldowns.set(key, now + seconds * 1000);
+		return { success: true };
+	};
 }
 ```
 
@@ -338,17 +347,17 @@ export function CooldownGuard(seconds: number) {
 ```ts
 import { BasePrefixCommand, CommandContext } from '@/structures';
 import { CooldownGuard } from '@/guards/CooldownGuard';
-import { UseGuards } from "@/decorators/useGuards.decorator";
+import { UseGuards } from '@/decorators/useGuards.decorator';
 
 @UseGuards(CooldownGuard(10))
 export default class PingCommand extends BasePrefixCommand {
-  name = 'ping';
-  description = 'Check bot latency';
-  aliases = ["Pong"]
+	name = 'ping';
+	description = 'Check bot latency';
+	aliases = ['Pong'];
 
-  async execute(ctx: CommandContext) {
-    await ctx.reply('Pong!');
-  }
+	async execute(ctx: CommandContext) {
+		await ctx.reply('Pong!');
+	}
 }
 ```
 
@@ -356,7 +365,7 @@ You can combine multiple guards for a command. If any guard returns a failure, t
 
 ## Development Standards
 
-- **Code Quality:** Enforced by Biome (see `biome.json`).
+- **Code Quality:** Enforced by Prettier (see `.prettierrc.json`).
 - **Type Safety:** Strict TypeScript configuration (`tsconfig.json`).
 - **Logging:** Use the provided logger (`src/utils/logger.ts`).
 - **Error Handling:** All async operations should be wrapped with try/catch and logged.

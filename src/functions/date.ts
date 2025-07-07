@@ -3,11 +3,11 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { config } from "@/config";
-import dayjs from "dayjs";
-import dayjsTimeZone from "dayjs/plugin/timezone";
-import dayjsUTC from "dayjs/plugin/utc";
-import relativeTime from "dayjs/plugin/relativeTime";
+import { config } from '@/config';
+import dayjs from 'dayjs';
+import dayjsTimeZone from 'dayjs/plugin/timezone';
+import dayjsUTC from 'dayjs/plugin/utc';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(dayjsUTC);
 dayjs.extend(dayjsTimeZone);
@@ -18,9 +18,9 @@ dayjs.tz.setDefault(config.timezone);
 export const datejs = dayjs.tz;
 
 const dateMasks = {
-	default: "DD/MM/YYYY - HH:mm:ss",
-	onlyDate: "DD/MM/YYYY",
-	onlyDateFileName: "YYYY-MM-DD",
+	default: 'DD/MM/YYYY - HH:mm:ss',
+	onlyDate: 'DD/MM/YYYY',
+	onlyDateFileName: 'YYYY-MM-DD',
 };
 
 /**
@@ -51,7 +51,7 @@ export const isValidTimezone = (tz: string) => {
  * @param mask - template for the date format
  * @returns formatted date
  */
-export function formatDate(date: Date, mask: keyof typeof dateMasks = "default") {
+export function formatDate(date: Date, mask: keyof typeof dateMasks = 'default') {
 	return datejs(date).format(dateMasks[mask]);
 }
 

@@ -3,14 +3,14 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { userMention } from "discord.js";
-import { client } from "..";
-import type { Guild } from "prisma/generated";
+import { userMention } from 'discord.js';
+import { client } from '..';
+import type { Guild } from 'prisma/generated';
 
 export function getPrefixCommand(content: string, guild?: Guild) {
 	let prefix: string;
 
-	const guildPrefix = guild?.prefix ?? client.getEnv<string>("PREFIX");
+	const guildPrefix = guild?.prefix ?? client.getEnv<string>('PREFIX');
 	if (content.toLowerCase().startsWith(guildPrefix.toLowerCase())) {
 		prefix = guildPrefix;
 	} else if (client.user && content.startsWith(userMention(client.user.id))) {

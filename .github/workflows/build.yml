@@ -4,9 +4,8 @@ permissions:
   contents: read
 
 on:
-
   push:
-    branches: [ main ]
+    branches: [main]
 
   pull_request:
 
@@ -17,7 +16,6 @@ on:
   workflow_call:
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest

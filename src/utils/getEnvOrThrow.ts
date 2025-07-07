@@ -6,7 +6,7 @@
 export function getEnvOrThrow<T = string>(key: string): T {
 	const value = process.env[key];
 
-	if (!value || value.trim() === "") {
+	if (!value || value.trim() === '') {
 		throw new Error(`❌ Missing environment variable: ${key}`);
 	}
 

@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { Message } from "discord.js";
-import type { Guild, User } from "prisma/generated";
+import type { Message } from 'discord.js';
+import type { Guild, User } from 'prisma/generated';
 
 export abstract class BasePrefixCommand {
 	abstract name: string;

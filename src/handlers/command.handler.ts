@@ -3,15 +3,19 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { BasePrefixCommand } from "@/structures/BasePrefixCommand";
-import type { BaseSlashCommand } from "@/structures/BaseSlashCommand";
-import { getPrivateGuildId } from "@/structures/Private";
-import { readCommandFiles } from "@/utils/readCommandFiles";
-import { REST, Routes } from "discord.js";
-import { join } from "node:path";
+/*
+ eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call 
+*/
+
+import type { BasePrefixCommand } from '@/structures/BasePrefixCommand';
+import type { BaseSlashCommand } from '@/structures/BaseSlashCommand';
+import { getPrivateGuildId } from '@/structures/Private';
+import { readCommandFiles } from '@/utils/readCommandFiles';
+import { REST, Routes } from 'discord.js';
+import { join } from 'node:path';
 
 export const loadSlashCommands = async (client: CustomClient) => {
-	const files = readCommandFiles(join(__dirname, "../commands/slash"), ".slash.ts");
+	const files = readCommandFiles(join(__dirname, '../commands/slash'), '.slash.ts');
 
 	const globalCommands: BaseSlashCommand[] = [];
 	const guildCommandsMap = new Map<string, BaseSlashCommand[]>();
@@ -34,11 +38,11 @@ export const loadSlashCommands = async (client: CustomClient) => {
 		client.slashCommands.set(command.data.name, command);
 	}
 
-	const rest = new REST({ version: "10" }).setToken(client.getEnv("TOKEN"));
+	const rest = new REST({ version: '10' }).setToken(client.getEnv('TOKEN'));
 
 	// Deploy global
 	if (globalCommands.length > 0) {
-		await rest.put(Routes.applicationCommands(client.getEnv("CLIENT_ID")), {
+		await rest.put(Routes.applicationCommands(client.getEnv('CLIENT_ID')), {
 			body: globalCommands.map((c) => c.data.toJSON()),
 		});
 		client.logger.complete(`🌍 Deployed ${globalCommands.length} global slash commands`);
@@ -46,7 +50,7 @@ export const loadSlashCommands = async (client: CustomClient) => {
 
 	// Deploy private guild commands
 	for (const [guildId, commands] of guildCommandsMap.entries()) {
-		await rest.put(Routes.applicationGuildCommands(client.getEnv("CLIENT_ID"), guildId), {
+		await rest.put(Routes.applicationGuildCommands(client.getEnv('CLIENT_ID'), guildId), {
 			body: commands.map((c) => c.data.toJSON()),
 		});
 		client.logger.complete(`🏠 Deployed ${commands.length} commands to guild ${guildId}`);
@@ -56,7 +60,7 @@ export const loadSlashCommands = async (client: CustomClient) => {
 };
 
 export const loadPrefixCommands = async (client: CustomClient) => {
-	const files = readCommandFiles(join(__dirname, "../commands/prefix"), ".prefix.ts");
+	const files = readCommandFiles(join(__dirname, '../commands/prefix'), '.prefix.ts');
 
 	for (const file of files) {
 		const module = await import(file);

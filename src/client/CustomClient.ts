@@ -3,13 +3,13 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { config } from "@/config";
-import type { BasePrefixCommand } from "@/structures/BasePrefixCommand";
-import type { BaseSlashCommand } from "@/structures/BaseSlashCommand";
-import { getEnvOrThrow } from "@/utils/getEnvOrThrow";
-import Logger from "@/utils/logger";
-import { Client, type ClientOptions, Collection } from "discord.js";
-import { PrismaClient } from "prisma/generated";
+import { config } from '@/config';
+import type { BasePrefixCommand } from '@/structures/BasePrefixCommand';
+import type { BaseSlashCommand } from '@/structures/BaseSlashCommand';
+import { getEnvOrThrow } from '@/utils/getEnvOrThrow';
+import Logger from '@/utils/logger';
+import { Client, type ClientOptions, Collection } from 'discord.js';
+import { PrismaClient } from 'prisma/generated';
 
 export const logger = new Logger();
 export const prisma = new PrismaClient();
