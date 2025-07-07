@@ -9,6 +9,7 @@ services:
             - .env
         environment:
             - NODE_ENV=production
+            - HUSKY=0
         # depends_on:
         # - db
         # - cache

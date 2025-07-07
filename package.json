@@ -12,7 +12,7 @@
 		"docker:build": "docker compose build",
 		"lint": "eslint .",
 		"format": "prettier --write .",
-		"prepare": "[ \"$NODE_ENV\" = \"development\" ] && husky install || echo 'Skip husky install (not development)'",
+		"prepare": "husky",
 		"commit": "git-cz",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -31,6 +31,7 @@
 		"@prisma/client": "^6.10.1",
 		"dayjs": "^1.11.13",
 		"discord.js": "^14.21.0",
+		"discord.js-template-v14": ".",
 		"i18next": "25.3.0",
 		"i18next-fs-backend": "2.6.0",
 		"ioredis": "^5.6.1",
@@ -51,7 +52,6 @@
 		"eslint-config-prettier": "^10.1.5",
 		"globals": "^16.3.0",
 		"husky": "^9.1.7",
-		"lint-staged": "^16.1.2",
 		"prettier": "^3.6.2",
 		"prisma": "^6.10.1"
 	},
@@ -78,12 +78,5 @@
 				100
 			]
 		}
-	},
-	"lint-staged": {
-		"*.{js,ts,tsx,jsx,json,md}": [
-			"prettier --write",
-			"eslint --fix",
-			"git add ."
-		]
 	}
 }
