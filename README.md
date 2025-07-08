@@ -20,6 +20,7 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 - **Extensible client**: CustomClient class for shared utilities and services.
 - **Comprehensive logging**: Uses [signale](https://github.com/klaussinani/signale) for structured logs.
 - **Linting & formatting**: Enforced by [Prettier](https://prettier.io/docs/install/).
+- **Hot Reloading**: Instantly reloads your bot during development when file changes are detected. This feature enables a rapid feedback loop, allowing you to see code updates without restarting the process manually. Simply run `bun dev` to start the bot in development mode with hot-reload enabled.
 
 ## Tech Stack
 
