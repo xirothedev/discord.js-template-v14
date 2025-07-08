@@ -50,5 +50,6 @@ export class PingCommand extends BasePrefixCommand {
 			.setTimestamp();
 
 		await msg.edit({ content: '', embeds: [embed] });
+		return;
 	}
 }

@@ -34,9 +34,16 @@ export const client = new CustomClient({
 });
 
 void (async () => {
+	console.clear();
+
 	await initI18n(client);
 	await loadPrefixCommands(client);
 	await loadSlashCommands(client);
 	await loadEvents(client);
 	await client.login(client.getEnv('TOKEN'));
+
+	if (process.env.NODE_ENV === 'development') {
+		// Import hoặc chạy hotreload ở đây
+		await import('./hotreload.ts');
+	}
 })();

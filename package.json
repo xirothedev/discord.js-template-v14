@@ -4,7 +4,7 @@
 	"description": "A modern, scalable, and extensible Discord bot template built with [discord.js v14](https://discord.js.org/), TypeScript, and Prisma ORM. This template is designed for rapid development of robust Discord bots, featuring multi-language support, modular command/event handling, and PostgreSQL integration",
 	"main": "src/index.ts",
 	"scripts": {
-		"dev": "bun run src/index.ts --watch",
+		"dev": "NODE_ENV=development bun run src/index.ts",
 		"start": "bun src/index.ts",
 		"db:push": "prisma db push",
 		"db:deploy": "prisma migrate deploy",
@@ -52,7 +52,8 @@
 		"globals": "^16.3.0",
 		"husky": "^9.1.7",
 		"prettier": "^3.6.2",
-		"prisma": "^6.11.1"
+		"prisma": "^6.11.1",
+		"chokidar": "^4.0.3"
 	},
 	"signale": {
 		"displayScope": true,
