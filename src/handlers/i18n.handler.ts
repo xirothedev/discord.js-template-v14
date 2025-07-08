@@ -43,14 +43,7 @@ export async function initI18n(client: CustomClient) {
 
 // Helper function to get translation
 export function T(locale: string, key: string, params?: { [x: string]: string }): string {
-	const localeMap: { [key: string]: string } = {
-		'en-US': 'EnglishUS',
-		en: 'EnglishUS',
-		'vi-VN': 'Vietnamese',
-		vi: 'Vietnamese',
-	};
-
-	const mappedLocale = localeMap[locale] || 'EnglishUS';
+	const mappedLocale = locale || 'EnglishUS';
 
 	try {
 		return i18next.t(key, { ...params, lng: mappedLocale }).toString();
