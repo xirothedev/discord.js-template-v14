@@ -3,15 +3,23 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { RedisClient } from 'bun';
 import { getEnvOrThrow } from '@/utils/getEnvOrThrow';
-import Redis from 'ioredis';
 
-const redis = new Redis({
-	host: getEnvOrThrow('REDIS_HOST'),
-	port: getEnvOrThrow('REDIS_PORT'),
-	password: getEnvOrThrow('REDIS_PASSWORD'),
-	db: 0,
-});
+const buildRedisUrl = (): string => {
+	const url = process.env.REDIS_URL;
+	if (url) return url;
+
+	// Fallback to individual env vars for backward compatibility
+	const host = getEnvOrThrow('REDIS_HOST');
+	const port = getEnvOrThrow('REDIS_PORT');
+	const password = getEnvOrThrow('REDIS_PASSWORD');
+	const db = 0;
+
+	return `redis://:${password}@${host}:${port}/${db}`;
+};
+
+const redis = new RedisClient(buildRedisUrl());
 
 /**
  * Store a value in Redis with a key and expiration time.
@@ -21,7 +29,8 @@ const redis = new Redis({
  * @returns {Promise<void>}
  */
 export async function setAddition(key: string, value: string | { [x: string]: string }, expireSeconds = 3600) {
-	await redis.set(key, JSON.stringify(value), 'EX', expireSeconds);
+	await redis.set(key, JSON.stringify(value));
+	await redis.expire(key, expireSeconds);
 }
 
 /**
@@ -50,7 +59,8 @@ export async function deleteAddition(key: string) {
  * @returns {Promise<boolean>} - True if the key exists, false otherwise.
  */
 export async function existsAddition(key: string) {
-	return (await redis.exists(key)) === 1;
+	// Bun Redis returns boolean directly
+	return await redis.exists(key);
 }
 
 /**

@@ -14,7 +14,7 @@ A modern, scalable, and extensible Discord bot template built with [discord.js v
 - **TypeScript-first**: Strict typing and modern JavaScript features.
 - **discord.js v14**: Latest Discord API features and best practices.
 - **Prisma ORM**: Type-safe database access with PostgreSQL.
-- **Redis support**: Fast caching, cooldowns, and distributed state management via [ioredis](https://github.com/luin/ioredis).
+- **Redis support**: Fast caching, cooldowns, and distributed state management via Bun's built-in Redis client (7.9x faster than ioredis).
 - **Multi-language (i18n)**: Built-in localization with [i18next](https://www.i18next.com/).
 - **Modular architecture**: Easy to add commands, events, and features.
 - **Extensible client**: CustomClient class for shared utilities and services.
@@ -84,7 +84,7 @@ enum Language {
 
 ## Redis Store
 
-This template supports Redis for fast, ephemeral storage—ideal for features like cooldowns, caching, and distributed state. Redis is integrated via the [`ioredis`](https://github.com/luin/ioredis) library, and utility functions are provided in `src/store/redisStore.ts`.
+This template supports Redis for fast, ephemeral storage—ideal for features like cooldowns, caching, and distributed state. Redis is integrated via Bun's built-in Redis client, and utility functions are provided in `src/store/redisStore.ts`.
 
 #### Setup
 
@@ -97,16 +97,16 @@ This template supports Redis for fast, ephemeral storage—ideal for features li
 2. **Configure environment variables** in your `.env` file:
 
     ```env
+    # Using REDIS_URL (recommended)
+    REDIS_URL=redis://:password@localhost:6379/0
+
+    # Or use individual variables (for backward compatibility)
     REDIS_HOST=localhost
     REDIS_PORT=6379
-    REDIS_PASSWORD=yourpassword  # (optional, if set)
+    REDIS_PASSWORD=yourpassword
     ```
 
-3. **Install dependencies** (if not already):
-
-    ```sh
-    bun add ioredis
-    ```
+3. **No additional installation needed** - Bun's Redis client is built-in.
 
 #### Usage Example
 
