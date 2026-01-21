@@ -10,14 +10,20 @@ const redis = new RedisClient(getEnvOrThrow('REDIS_URL'));
 
 /**
  * Store a value in Redis with a key and expiration time.
+ * Uses MULTI/EXEC transaction to ensure atomicity - either both SET and EXPIRE succeed, or neither does.
+ * This prevents keys from being stored without expiration if the process crashes between operations.
  * @param {string} key - The key to store the value under.
  * @param {string|Object} value - The value to store (will be stringified if an object).
  * @param {number} [expireSeconds=3600] - Expiration time in seconds.
  * @returns {Promise<void>}
  */
 export async function setAddition(key: string, value: string | { [x: string]: string }, expireSeconds = 3600) {
-	await redis.set(key, JSON.stringify(value));
-	await redis.expire(key, expireSeconds);
+	// Use MULTI/EXEC transaction for atomic set+expire
+	// This prevents the race condition where set succeeds but expire fails
+	await redis.send('MULTI', []);
+	await redis.send('SET', [key, JSON.stringify(value)]);
+	await redis.send('EXPIRE', [key, String(expireSeconds)]);
+	await redis.send('EXEC', []);
 }
 
 /**
