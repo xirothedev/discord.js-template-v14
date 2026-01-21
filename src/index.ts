@@ -41,9 +41,4 @@ void (async () => {
 	await loadSlashCommands(client);
 	await loadEvents(client);
 	await client.login(client.getEnv('TOKEN'));
-
-	if (process.env.NODE_ENV === 'development') {
-		// Import hoặc chạy hotreload ở đây
-		await import('./hotreload.ts');
-	}
 })();
