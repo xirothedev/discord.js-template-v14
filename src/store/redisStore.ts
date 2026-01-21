@@ -6,20 +6,7 @@
 import { RedisClient } from 'bun';
 import { getEnvOrThrow } from '@/utils/getEnvOrThrow';
 
-const buildRedisUrl = (): string => {
-	const url = process.env.REDIS_URL;
-	if (url) return url;
-
-	// Fallback to individual env vars for backward compatibility
-	const host = getEnvOrThrow('REDIS_HOST');
-	const port = getEnvOrThrow('REDIS_PORT');
-	const password = getEnvOrThrow('REDIS_PASSWORD');
-	const db = 0;
-
-	return `redis://:${password}@${host}:${port}/${db}`;
-};
-
-const redis = new RedisClient(buildRedisUrl());
+const redis = new RedisClient(getEnvOrThrow('REDIS_URL'));
 
 /**
  * Store a value in Redis with a key and expiration time.
