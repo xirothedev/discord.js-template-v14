@@ -1,3 +1,1 @@
-prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write --ignore-unknown
-bun lint
-git update-index --again
+npx lint-staged
