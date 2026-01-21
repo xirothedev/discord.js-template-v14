@@ -45,7 +45,9 @@ export default defineConfig([
 			'@typescript-eslint/no-unused-vars': 'off',
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/no-wrapper-object-types': 'off',
+			'@typescript-eslint/no-unsafe-assignment': 'off',
+			'@typescript-eslint/no-unsafe-call': 'off',
 		},
-		ignores: ['node_modules/*', '.husky/*', '.vscode/*', '.github/*', 'prisma/generated/*', 'eslint.config.mjs'],
+		ignores: ['node_modules/*', '.husky/*', '.vscode/*', '.github/*', 'generated/*', 'eslint.config.mjs'],
 	},
 ]);

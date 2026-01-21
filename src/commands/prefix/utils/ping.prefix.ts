@@ -8,7 +8,7 @@ import { CooldownGuard } from '@/guards/CooldownGuard';
 import { T } from '@/handlers/i18n.handler';
 import { BasePrefixCommand } from '@/structures/BasePrefixCommand';
 import { EmbedBuilder, type Message } from 'discord.js';
-import type { Guild, User } from 'prisma/generated';
+import type { Guild, User } from '@prisma/client';
 
 @UseGuards(CooldownGuard(10))
 export class PingCommand extends BasePrefixCommand {

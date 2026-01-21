@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import type { Message, ChatInputCommandInteraction } from 'discord.js';
-import type { Guild, User } from 'prisma/generated';
+import type { Guild, User } from '@prisma/client';
 
 export type CommandContext = {
 	interaction?: ChatInputCommandInteraction;

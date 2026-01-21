@@ -9,7 +9,7 @@ import { BaseEvent } from '@/structures/BaseEvent';
 import type { CommandContext } from '@/structures/Guard';
 import { getPrefixCommand } from '@/utils/getPrefixCommand';
 import type { Message } from 'discord.js';
-import type { Guild } from 'prisma/generated';
+import type { Guild } from '@prisma/client';
 
 export class MessageCreateEvent extends BaseEvent<'messageCreate'> {
 	constructor(client: CustomClient) {

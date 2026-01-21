@@ -31,8 +31,6 @@ export async function initI18n(client: CustomClient) {
 			returnNull: false,
 			returnEmptyString: false,
 			returnObjects: true,
-			// Luôn tắt debug khi reload
-			debug: !i18next.isInitialized && process.env.NODE_ENV === 'development',
 		});
 
 		client.logger.info('I18n has been initialized');

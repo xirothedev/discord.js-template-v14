@@ -9,7 +9,7 @@ import { client } from '@/index';
 import { BaseEvent } from '@/structures/BaseEvent';
 import type { CommandContext } from '@/structures/Guard';
 import { MessageFlags, type CacheType, type Interaction } from 'discord.js';
-import type { Guild, User } from 'prisma/generated';
+import type { Guild, User } from '@prisma/client';
 
 export class InteractionCreateEvent extends BaseEvent<'interactionCreate'> {
 	constructor(client: CustomClient) {

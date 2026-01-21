@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import type { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import type { Guild, User } from 'prisma/generated';
+import type { Guild, User } from '@prisma/client';
 
 export abstract class BaseSlashCommand {
 	abstract data: SlashCommandBuilder;

@@ -6,7 +6,7 @@
 import { config } from '@/config';
 import { T } from '@/handlers/i18n.handler';
 import { type Message, EmbedBuilder } from 'discord.js';
-import type { Language } from 'prisma/generated';
+import type { Language } from '@prisma/client';
 
 export class MissingArgError {
 	constructor(

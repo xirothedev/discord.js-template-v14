@@ -6,9 +6,9 @@
 import { ActivityType, PresenceUpdateStatus, type Client } from 'discord.js';
 import { BaseEvent } from '@/structures/BaseEvent';
 
-export class ReadyEvent extends BaseEvent<'ready'> {
+export class ReadyEvent extends BaseEvent<'clientReady'> {
 	constructor(client: CustomClient) {
-		super(client, 'ready', true);
+		super(client, 'clientReady', true);
 	}
 
 	execute(client: Client<true>) {

@@ -5,16 +5,14 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\
 
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../generated"
-  previewFeatures = ["postgresqlExtensions", "relationJoins"]
-  binaryTargets   = ["native", "linux-musl-openssl-3.0.x"]
-  engineType      = "library"
+  provider   = "prisma-client"
+  output     = "../../generated/prisma"
+  engineType = "client"
+  runtime    = "bun"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {

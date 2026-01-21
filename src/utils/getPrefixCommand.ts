@@ -5,7 +5,7 @@
 
 import { userMention } from 'discord.js';
 import { client } from '..';
-import type { Guild } from 'prisma/generated';
+import type { Guild } from '@prisma/client';
 
 export function getPrefixCommand(content: string, guild?: Guild) {
 	let prefix: string;

@@ -9,10 +9,13 @@ import type { BaseSlashCommand } from '@/structures/BaseSlashCommand';
 import { getEnvOrThrow } from '@/utils/getEnvOrThrow';
 import Logger from '@/utils/logger';
 import { Client, type ClientOptions, Collection } from 'discord.js';
-import { PrismaClient } from 'prisma/generated';
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 export const logger = new Logger();
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({
+	adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+});
 
 export class CustomClient extends Client {
 	slashCommands: Collection<string, BaseSlashCommand>;

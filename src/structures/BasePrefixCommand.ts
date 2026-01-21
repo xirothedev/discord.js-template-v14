@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import type { Message } from 'discord.js';
-import type { Guild, User } from 'prisma/generated';
+import type { Guild, User } from '@prisma/client';
 
 export abstract class BasePrefixCommand {
 	abstract name: string;
