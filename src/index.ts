@@ -33,6 +33,26 @@ export const client = new CustomClient({
 	allowedMentions: { parse: ['roles', 'users'], repliedUser: false },
 });
 
+// Global error handlers for process stability
+process.on('unhandledRejection', (reason, promise) => {
+	console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+process.on('uncaughtException', (error) => {
+	console.error('Uncaught Exception:', error);
+});
+
+// Graceful shutdown handlers
+process.on('SIGINT', () => {
+	console.log('\n🛑 Received SIGINT, shutting down gracefully...');
+	void client.destroy().then(() => process.exit(0));
+});
+
+process.on('SIGTERM', () => {
+	console.log('\n🛑 Received SIGTERM, shutting down gracefully...');
+	void client.destroy().then(() => process.exit(0));
+});
+
 void (async () => {
 	console.clear();
 
