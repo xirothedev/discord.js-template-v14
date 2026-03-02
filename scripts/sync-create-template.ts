@@ -5,7 +5,7 @@ const rootDir = process.cwd();
 const packageDir = path.join(rootDir, 'packages', 'create-discord-app');
 const templateDir = path.join(packageDir, 'template');
 
-const excluded = new Set(['.git', 'node_modules', '.env', 'packages', 'scripts', 'docs']);
+const excluded = new Set(['.git', 'node_modules', '.env', 'packages', 'scripts', 'docs', 'generated']);
 
 async function syncTemplate(): Promise<void> {
 	await rm(templateDir, { recursive: true, force: true });
@@ -47,6 +47,7 @@ function shouldSkip(relativePath: string): boolean {
 	if (relativePath.startsWith('packages/')) return true;
 	if (relativePath.startsWith('scripts/')) return true;
 	if (relativePath.startsWith('docs/')) return true;
+	if (relativePath.startsWith('generated/')) return true;
 	return false;
 }
 
