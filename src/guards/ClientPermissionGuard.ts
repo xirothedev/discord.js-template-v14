@@ -8,8 +8,8 @@ import type { CommandContext, Guard } from '@/structures/Guard';
 import type { PermissionsString } from 'discord.js';
 
 export function ClientPermissionGuard(permissions: PermissionsString[]): Guard {
-	return ({ message, guild }: CommandContext) => {
-		const client = message?.guild?.members.me;
+	return ({ message, interaction, guild }: CommandContext) => {
+		const client = message?.guild?.members.me ?? interaction?.guild?.members.me;
 		const locale = guild?.locale || 'EnglishUS';
 		if (!client || !('permissions' in client)) {
 			return {

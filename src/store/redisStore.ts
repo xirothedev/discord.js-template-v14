@@ -29,12 +29,19 @@ export async function setAddition(key: string, value: string | { [x: string]: st
 /**
  * Retrieve a value from Redis by key. Automatically parses JSON if possible.
  * @param {string} key - The key to retrieve.
- * @returns {Promise<any|null>} - The stored value, or null if not found.
+ * @returns {Promise<any|null>} - The stored value, or null if not found or parse error.
  */
 export async function getAddition<T>(key: string): Promise<T | null> {
 	const data = await redis.get(key);
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-	return data ? JSON.parse(data) : null;
+	if (!data) return null;
+	
+	try {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+		return JSON.parse(data);
+	} catch (error) {
+		console.error(`Redis JSON parse error for key ${key}:`, error);
+		return null;
+	}
 }
 
 /**
