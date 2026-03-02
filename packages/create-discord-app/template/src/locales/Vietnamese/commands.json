@@ -1,0 +1,7 @@
+{
+	"ping": {
+		"checking": "Checking ping...",
+		"bot_latency": "Bot Latency",
+		"api_latency": "API Latency"
+	}
+}

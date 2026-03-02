@@ -1,0 +1,35 @@
+{
+	"name": "@xirothedev/create-discord-app",
+	"version": "0.1.0",
+	"description": "Bun-first scaffolding CLI for discord.js-template-v14",
+	"license": "MIT",
+	"type": "module",
+	"bin": {
+		"create-discord-app": "./src/cli.ts"
+	},
+	"files": [
+		"src",
+		"template",
+		"README.md"
+	],
+	"scripts": {
+		"sync-template": "bun ../../scripts/sync-create-template.ts",
+		"test": "bun test src/__tests__",
+		"prepublishOnly": "bun run sync-template && bun run test"
+	},
+	"engines": {
+		"bun": ">=1.0.0"
+	},
+	"keywords": [
+		"discord",
+		"discord.js",
+		"create",
+		"scaffold",
+		"bun"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/xirothedev/discord.js-template-v14.git",
+		"directory": "packages/create-discord-app"
+	}
+}

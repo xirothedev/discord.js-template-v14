@@ -1,0 +1,95 @@
+{
+	"name": "discord.js-template-v14",
+	"version": "1.0.0",
+	"description": "A modern, scalable, and extensible Discord bot template built with [discord.js v14](https://discord.js.org/), TypeScript, and Prisma ORM. This template is designed for rapid development of robust Discord bots, featuring multi-language support, modular command/event handling, and PostgreSQL integration",
+	"main": "src/index.ts",
+	"scripts": {
+		"postinstall": "prisma generate",
+		"dev": "NODE_ENV=development bun --watch src/index.ts",
+		"start": "bun src/index.ts",
+		"deploy:commands": "bun src/scripts/deployCommands.ts",
+		"db:push": "prisma db push",
+		"db:deploy": "prisma migrate deploy",
+		"docker:up": "docker compose up --build",
+		"docker:build": "docker compose build",
+		"typecheck": "tsc --noEmit",
+		"lint": "eslint .",
+		"format": "prettier --write .",
+		"check": "bun run typecheck && bun run lint && bun run test",
+		"prepare": "husky",
+		"commit": "git-cz",
+		"test": "bun test"
+	},
+	"keywords": [],
+	"author": "xirothedev <lethanhtrung.trungle@gmail.com>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/xirothedev/discord.js-template-v14.git"
+	},
+	"homepage": "https://github.com/xirothedev/discord.js-template-v14#readme",
+	"bugs": {
+		"url": "https://github.com/xirothedev/discord.js-template-v14/issues"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"@prisma/adapter-pg": "^7.2.0",
+		"@prisma/client": "^7.2.0",
+		"dayjs": "^1.11.19",
+		"discord.js": "^14.25.1",
+		"i18next": "25.8.0",
+		"i18next-fs-backend": "2.6.1",
+		"reflect-metadata": "^0.2.2",
+		"signale": "^1.4.0",
+		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^20.3.1",
+		"@commitlint/config-conventional": "^20.3.1",
+		"@eslint/eslintrc": "^3.3.3",
+		"@eslint/js": "^9.39.2",
+		"@types/bun": "^1.3.6",
+		"@types/signale": "^1.4.7",
+		"@typescript-eslint/eslint-plugin": "^8.53.1",
+		"@typescript-eslint/parser": "^8.53.1",
+		"eslint": "^9.39.2",
+		"eslint-config-prettier": "^10.1.8",
+		"globals": "^17.0.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"prettier": "^3.8.0",
+		"prisma": "^7.2.0"
+	},
+	"signale": {
+		"displayScope": true,
+		"displayBadge": true,
+		"displayDate": true,
+		"displayFilename": true,
+		"displayLabel": true,
+		"displayTimestamp": true,
+		"underlineLabel": true
+	},
+	"prisma": {
+		"schema": "./prisma/schema"
+	},
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		],
+		"rules": {
+			"header-max-length": [
+				0,
+				"always",
+				100
+			]
+		}
+	},
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx,mjs,cjs}": [
+			"prettier --write",
+			"eslint --fix"
+		],
+		"*.{json,md,yml,yaml}": [
+			"prettier --write"
+		]
+	}
+}
