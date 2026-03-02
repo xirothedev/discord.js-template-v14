@@ -5,11 +5,13 @@
 
 import type { Message } from 'discord.js';
 import type { Guild, User } from '@prisma/client';
+import type { BotModule } from '@/types/module';
 
 export abstract class BasePrefixCommand {
 	abstract name: string;
 	abstract description: string;
 	abstract aliases?: string[];
+	module: BotModule = 'core';
 
 	constructor(protected client: CustomClient) {}
 

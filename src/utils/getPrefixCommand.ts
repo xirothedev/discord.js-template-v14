@@ -4,17 +4,25 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { userMention } from 'discord.js';
-import { client } from '..';
 import type { Guild } from '@prisma/client';
 
-export function getPrefixCommand(content: string, guild?: Guild) {
+type PrefixContext = {
+	defaultPrefix: string;
+	mentionUserId?: string;
+};
+
+export function getPrefixCommand(content: string, guild: Guild | undefined, context: PrefixContext) {
 	let prefix: string;
 
-	const guildPrefix = guild?.prefix ?? client.getEnv<string>('PREFIX');
+	const guildPrefix = guild?.prefix ?? context.defaultPrefix;
+	const mentionPrefixes = context.mentionUserId
+		? [userMention(context.mentionUserId), `<@!${context.mentionUserId}>`]
+		: [];
+
 	if (content.toLowerCase().startsWith(guildPrefix.toLowerCase())) {
 		prefix = guildPrefix;
-	} else if (client.user && content.startsWith(userMention(client.user.id))) {
-		prefix = userMention(client.user.id);
+	} else if (mentionPrefixes.some((candidate) => content.startsWith(candidate))) {
+		prefix = mentionPrefixes.find((candidate) => content.startsWith(candidate))!;
 	} else {
 		return null;
 	}

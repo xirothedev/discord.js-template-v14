@@ -8,7 +8,7 @@ import { T } from '@/handlers/i18n.handler';
 import { BaseEvent } from '@/structures/BaseEvent';
 import type { CommandContext } from '@/structures/Guard';
 import { getPrefixCommand } from '@/utils/getPrefixCommand';
-import type { Message } from 'discord.js';
+import { userMention, type Message } from 'discord.js';
 import type { Guild } from '@prisma/client';
 
 export class MessageCreateEvent extends BaseEvent<'messageCreate'> {
@@ -18,21 +18,34 @@ export class MessageCreateEvent extends BaseEvent<'messageCreate'> {
 
 	async execute(message: Message<boolean>) {
 		if (message.author.bot || !message.inGuild()) return;
+		if (!this.client.user) return;
+
 		let commandInput: string | undefined;
 		let guild: Guild | undefined;
+		let startedAt = Date.now();
+		const defaultPrefix = this.client.getEnv<string>('PREFIX');
+		const mentionPrefix = userMention(this.client.user.id);
+		const normalizedContent = message.content.toLowerCase();
+		const maybeDefaultPrefix = normalizedContent.startsWith(defaultPrefix.toLowerCase());
+		const maybeMentionPrefix = message.content.startsWith(mentionPrefix);
+		const maybeCustomPrefixCandidate = /^[^\w\s]/.test(message.content);
+
+		// Avoid DB writes/lookups for clearly non-command messages.
+		if (!maybeDefaultPrefix && !maybeMentionPrefix && !maybeCustomPrefixCandidate) {
+			return;
+		}
 
 		const replyError = async (locale: string) => {
 			await message.reply(T(locale, 'error'));
 		};
 
 		try {
-			guild = await this.client.prisma.guild.upsert({
-				where: { id: message.guildId },
-				create: { id: message.guildId },
-				update: {},
-			});
+			guild = await this.client.entityAccess.getOrCreateGuild(message.guildId);
 
-			const result = getPrefixCommand(message.content, guild);
+			const result = getPrefixCommand(message.content, guild, {
+				defaultPrefix,
+				mentionUserId: this.client.user.id,
+			});
 			if (!result) return;
 
 			commandInput = result.commandInput;
@@ -43,15 +56,17 @@ export class MessageCreateEvent extends BaseEvent<'messageCreate'> {
 				this.client.prefixCommands.find((cmd) => cmd.aliases?.includes(commandInput!));
 
 			if (!command) return;
+			startedAt = Date.now();
 
-			const user = await this.client.prisma.user.upsert({
-				where: { id: message.author.id },
-				create: { id: message.author.id },
-				update: {},
-			});
+			const isModuleEnabled = await this.client.moduleSettings.isEnabled(guild.id, command.module);
+			if (!isModuleEnabled) {
+				await message.reply(T(guild.locale, 'module_disabled', { module: command.module }));
+				return;
+			}
+
+			const user = await this.client.entityAccess.getOrCreateUser(message.author.id);
 
 			// ----- Guard check -----
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
 			const guards = getGuards(Object.getPrototypeOf(command).constructor);
 			const context: CommandContext = { message, guild, user, args };
 
@@ -65,7 +80,9 @@ export class MessageCreateEvent extends BaseEvent<'messageCreate'> {
 
 			// ----- Run command -----
 			await command.execute(message, guild, user, args);
+			this.client.metrics.record(command.name, 'prefix', Date.now() - startedAt, true);
 		} catch (err) {
+			if (commandInput) this.client.metrics.record(commandInput, 'prefix', Date.now() - startedAt, false);
 			console.error(`❌ Error running command ${commandInput}:`, err);
 			await replyError(guild?.locale || 'EnglishUS');
 		}

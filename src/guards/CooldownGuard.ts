@@ -16,7 +16,10 @@ export function CooldownGuard(seconds: number) {
 		if (interaction?.commandName) {
 			commandName = interaction.commandName;
 		} else if (message?.content) {
-			const result = getPrefixCommand(message.content, guild);
+			const result = getPrefixCommand(message.content, guild, {
+				defaultPrefix: process.env.PREFIX ?? 's?',
+				mentionUserId: message.client.user?.id,
+			});
 			if (!result) {
 				return {
 					success: false,

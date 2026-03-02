@@ -5,7 +5,6 @@
 
 import { getGuards } from '@/decorators/useGuards.decorator';
 import { T } from '@/handlers/i18n.handler';
-import { client } from '@/index';
 import { BaseEvent } from '@/structures/BaseEvent';
 import type { CommandContext } from '@/structures/Guard';
 import { MessageFlags, type CacheType, type Interaction } from 'discord.js';
@@ -19,7 +18,7 @@ export class InteractionCreateEvent extends BaseEvent<'interactionCreate'> {
 	async execute(interaction: Interaction<CacheType>) {
 		if (!interaction.isChatInputCommand()) return;
 
-		const command = client.slashCommands.get(interaction.commandName);
+		const command = this.client.slashCommands.get(interaction.commandName);
 		if (!command) return;
 
 		let guild: Guild | undefined;
@@ -42,27 +41,30 @@ export class InteractionCreateEvent extends BaseEvent<'interactionCreate'> {
 
 		try {
 			if (interaction.guildId) {
-				guild = await this.client.prisma.guild.upsert({
-					where: { id: interaction.guildId },
-					create: { id: interaction.guildId },
-					update: {},
-				});
+				guild = await this.client.entityAccess.getOrCreateGuild(interaction.guildId);
 			}
 
-			user = await this.client.prisma.user.upsert({
-				where: { id: interaction.user.id },
-				create: { id: interaction.user.id },
-				update: {},
-			});
+			user = await this.client.entityAccess.getOrCreateUser(interaction.user.id);
 		} catch (error) {
 			console.error(`❌ error upserting user/guild:`, error);
 			await replyError(guild?.locale || 'EnglishUS');
 			return;
 		}
 
+		const startedAt = Date.now();
 		try {
+			if (guild) {
+				const isModuleEnabled = await this.client.moduleSettings.isEnabled(guild.id, command.module);
+				if (!isModuleEnabled) {
+					await interaction.reply({
+						content: T(guild.locale, 'module_disabled', { module: command.module }),
+						flags: MessageFlags.Ephemeral,
+					});
+					return;
+				}
+			}
+
 			// ----- Guard check -----
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
 			const guards = getGuards(Object.getPrototypeOf(command).constructor);
 			const context: CommandContext = { interaction, guild, user };
 
@@ -79,7 +81,9 @@ export class InteractionCreateEvent extends BaseEvent<'interactionCreate'> {
 
 			// ----- Run command -----
 			await command.execute(interaction, guild, user);
+			this.client.metrics.record(command.data.name, 'slash', Date.now() - startedAt, true);
 		} catch (error) {
+			this.client.metrics.record(command.data.name, 'slash', Date.now() - startedAt, false);
 			console.error(`❌ error running slash command ${interaction.commandName}:`, error);
 			await replyError(guild?.locale || 'EnglishUS');
 		}

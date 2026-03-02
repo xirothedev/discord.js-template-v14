@@ -16,13 +16,11 @@ RUN bun install --frozen-lockfile --production
 FROM base AS build
 COPY --from=install /usr/src/app/node_modules ./node_modules
 COPY . .
-COPY .env.prod .env
 
 # Production stage
 FROM base AS release
 COPY --from=install_prod /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/ ./
-COPY --from=build /usr/src/app/.env ./.env
 RUN bun x prisma generate
 
 # Set production environment

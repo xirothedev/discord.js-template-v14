@@ -10,4 +10,9 @@
  */
 export type * from './models/User.ts'
 export type * from './models/Guild.ts'
+export type * from './models/GuildModuleSetting.ts'
+export type * from './models/ModerationCase.ts'
+export type * from './models/WelcomeSetting.ts'
+export type * from './models/ReactionRoleMessage.ts'
+export type * from './models/ScheduledJob.ts'
 export type * from './commonInputTypes.ts'

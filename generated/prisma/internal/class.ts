@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "enum Language {\n  EnglishUS\n  Vietnamese\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\\\n\ngenerator client {\n  provider   = \"prisma-client\"\n  output     = \"../../generated/prisma\"\n  engineType = \"client\"\n  runtime    = \"bun\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id String @id\n}\n\nmodel Guild {\n  id     String   @id\n  prefix String   @default(\"s?\")\n  locale Language @default(EnglishUS)\n}\n",
+  "inlineSchema": "enum Language {\n  EnglishUS\n  Vietnamese\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\\\n\ngenerator client {\n  provider   = \"prisma-client\"\n  output     = \"../../generated/prisma\"\n  engineType = \"client\"\n  runtime    = \"bun\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id String @id\n}\n\nmodel Guild {\n  id     String   @id\n  prefix String   @default(\"s?\")\n  locale Language @default(EnglishUS)\n}\n\nmodel GuildModuleSetting {\n  id        String   @id @default(cuid())\n  guildId   String\n  module    String\n  enabled   Boolean  @default(true)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([guildId, module])\n}\n\nmodel ModerationCase {\n  id          String    @id @default(cuid())\n  guildId     String\n  userId      String\n  moderatorId String\n  action      String\n  reason      String?\n  durationMs  Int?\n  createdAt   DateTime  @default(now())\n  expiresAt   DateTime?\n  resolvedAt  DateTime?\n}\n\nmodel WelcomeSetting {\n  guildId          String   @id\n  enabled          Boolean  @default(false)\n  channelId        String?\n  template         String?\n  autoRoleIds      String   @default(\"\")\n  verificationMode String   @default(\"none\")\n  createdAt        DateTime @default(now())\n  updatedAt        DateTime @updatedAt\n}\n\nmodel ReactionRoleMessage {\n  id        String   @id @default(cuid())\n  guildId   String\n  channelId String\n  messageId String\n  emoji     String\n  roleId    String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([messageId, emoji])\n}\n\nmodel ScheduledJob {\n  id        String   @id @default(cuid())\n  guildId   String\n  type      String\n  payload   Json\n  runAt     DateTime\n  status    String   @default(\"pending\")\n  attempts  Int      @default(0)\n  lastError String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Guild\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prefix\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locale\",\"kind\":\"enum\",\"type\":\"Language\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Guild\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prefix\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locale\",\"kind\":\"enum\",\"type\":\"Language\"}],\"dbName\":null},\"GuildModuleSetting\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"module\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"enabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ModerationCase\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"moderatorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"durationMs\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"resolvedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"WelcomeSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"enabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"channelId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"template\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"autoRoleIds\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verificationMode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ReactionRoleMessage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"channelId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"messageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emoji\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ScheduledJob\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"payload\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"runAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"attempts\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastError\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -193,6 +193,56 @@ export interface PrismaClient<
     * ```
     */
   get guild(): Prisma.GuildDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.guildModuleSetting`: Exposes CRUD operations for the **GuildModuleSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GuildModuleSettings
+    * const guildModuleSettings = await prisma.guildModuleSetting.findMany()
+    * ```
+    */
+  get guildModuleSetting(): Prisma.GuildModuleSettingDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.moderationCase`: Exposes CRUD operations for the **ModerationCase** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ModerationCases
+    * const moderationCases = await prisma.moderationCase.findMany()
+    * ```
+    */
+  get moderationCase(): Prisma.ModerationCaseDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.welcomeSetting`: Exposes CRUD operations for the **WelcomeSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WelcomeSettings
+    * const welcomeSettings = await prisma.welcomeSetting.findMany()
+    * ```
+    */
+  get welcomeSetting(): Prisma.WelcomeSettingDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.reactionRoleMessage`: Exposes CRUD operations for the **ReactionRoleMessage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReactionRoleMessages
+    * const reactionRoleMessages = await prisma.reactionRoleMessage.findMany()
+    * ```
+    */
+  get reactionRoleMessage(): Prisma.ReactionRoleMessageDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.scheduledJob`: Exposes CRUD operations for the **ScheduledJob** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScheduledJobs
+    * const scheduledJobs = await prisma.scheduledJob.findMany()
+    * ```
+    */
+  get scheduledJob(): Prisma.ScheduledJobDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

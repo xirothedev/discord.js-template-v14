@@ -52,7 +52,12 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Guild: 'Guild'
+  Guild: 'Guild',
+  GuildModuleSetting: 'GuildModuleSetting',
+  ModerationCase: 'ModerationCase',
+  WelcomeSetting: 'WelcomeSetting',
+  ReactionRoleMessage: 'ReactionRoleMessage',
+  ScheduledJob: 'ScheduledJob'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -87,6 +92,78 @@ export const GuildScalarFieldEnum = {
 export type GuildScalarFieldEnum = (typeof GuildScalarFieldEnum)[keyof typeof GuildScalarFieldEnum]
 
 
+export const GuildModuleSettingScalarFieldEnum = {
+  id: 'id',
+  guildId: 'guildId',
+  module: 'module',
+  enabled: 'enabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GuildModuleSettingScalarFieldEnum = (typeof GuildModuleSettingScalarFieldEnum)[keyof typeof GuildModuleSettingScalarFieldEnum]
+
+
+export const ModerationCaseScalarFieldEnum = {
+  id: 'id',
+  guildId: 'guildId',
+  userId: 'userId',
+  moderatorId: 'moderatorId',
+  action: 'action',
+  reason: 'reason',
+  durationMs: 'durationMs',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  resolvedAt: 'resolvedAt'
+} as const
+
+export type ModerationCaseScalarFieldEnum = (typeof ModerationCaseScalarFieldEnum)[keyof typeof ModerationCaseScalarFieldEnum]
+
+
+export const WelcomeSettingScalarFieldEnum = {
+  guildId: 'guildId',
+  enabled: 'enabled',
+  channelId: 'channelId',
+  template: 'template',
+  autoRoleIds: 'autoRoleIds',
+  verificationMode: 'verificationMode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WelcomeSettingScalarFieldEnum = (typeof WelcomeSettingScalarFieldEnum)[keyof typeof WelcomeSettingScalarFieldEnum]
+
+
+export const ReactionRoleMessageScalarFieldEnum = {
+  id: 'id',
+  guildId: 'guildId',
+  channelId: 'channelId',
+  messageId: 'messageId',
+  emoji: 'emoji',
+  roleId: 'roleId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReactionRoleMessageScalarFieldEnum = (typeof ReactionRoleMessageScalarFieldEnum)[keyof typeof ReactionRoleMessageScalarFieldEnum]
+
+
+export const ScheduledJobScalarFieldEnum = {
+  id: 'id',
+  guildId: 'guildId',
+  type: 'type',
+  payload: 'payload',
+  runAt: 'runAt',
+  status: 'status',
+  attempts: 'attempts',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ScheduledJobScalarFieldEnum = (typeof ScheduledJobScalarFieldEnum)[keyof typeof ScheduledJobScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -95,10 +172,34 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: 'JsonNull'
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull',
+  AnyNull: 'AnyNull'
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

@@ -5,6 +5,7 @@
 
 import { ActivityType, PresenceUpdateStatus, type Client } from 'discord.js';
 import { BaseEvent } from '@/structures/BaseEvent';
+import { getEnvBoolean } from '@/utils/env';
 
 export class ReadyEvent extends BaseEvent<'clientReady'> {
 	constructor(client: CustomClient) {
@@ -13,6 +14,10 @@ export class ReadyEvent extends BaseEvent<'clientReady'> {
 
 	execute(client: Client<true>) {
 		this.client.logger.info(`✅ Bot is ready as ${client.user?.tag}`);
+		if (getEnvBoolean('SCHEDULER_ENABLED', true)) {
+			this.client.scheduler.start();
+			this.client.logger.info('⏱ Scheduler started');
+		}
 
 		client.user.setPresence({
 			activities: [

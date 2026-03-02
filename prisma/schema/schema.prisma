@@ -24,3 +24,64 @@ model Guild {
   prefix String @default("s?")
   locale Language @default(EnglishUS)
 }
+
+model GuildModuleSetting {
+  id        String   @id @default(cuid())
+  guildId   String
+  module    String
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, module])
+}
+
+model ModerationCase {
+  id          String   @id @default(cuid())
+  guildId     String
+  userId      String
+  moderatorId String
+  action      String
+  reason      String?
+  durationMs  Int?
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime?
+  resolvedAt  DateTime?
+}
+
+model WelcomeSetting {
+  guildId          String   @id
+  enabled          Boolean  @default(false)
+  channelId        String?
+  template         String?
+  autoRoleIds      String   @default("")
+  verificationMode String   @default("none")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model ReactionRoleMessage {
+  id        String   @id @default(cuid())
+  guildId   String
+  channelId String
+  messageId String
+  emoji     String
+  roleId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([messageId, emoji])
+}
+
+model ScheduledJob {
+  id        String   @id @default(cuid())
+  guildId   String
+  type      String
+  payload   Json
+  runAt     DateTime
+  status    String   @default("pending")
+  attempts  Int      @default(0)
+  lastError String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

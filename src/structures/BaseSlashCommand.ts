@@ -3,11 +3,18 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import type {
+	ChatInputCommandInteraction,
+	SlashCommandBuilder,
+	SlashCommandOptionsOnlyBuilder,
+	SlashCommandSubcommandsOnlyBuilder,
+} from 'discord.js';
 import type { Guild, User } from '@prisma/client';
+import type { BotModule } from '@/types/module';
 
 export abstract class BaseSlashCommand {
-	abstract data: SlashCommandBuilder;
+	abstract data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder;
+	module: BotModule = 'core';
 
 	constructor(protected client: CustomClient) {}
 

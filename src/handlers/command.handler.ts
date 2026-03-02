@@ -3,10 +3,6 @@
  *  Licensed under the MIT License. See LICENSE.md in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-/*
- eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call 
-*/
-
 import type { BasePrefixCommand } from '@/structures/BasePrefixCommand';
 import type { BaseSlashCommand } from '@/structures/BaseSlashCommand';
 import { getPrivateGuildId } from '@/structures/Private';
@@ -14,16 +10,40 @@ import { readCommandFiles } from '@/utils/readCommandFiles';
 import { REST, Routes } from 'discord.js';
 import { join } from 'node:path';
 
-export const loadSlashCommands = async (client: CustomClient) => {
+type LoadedSlashCommands = {
+	globalCommands: BaseSlashCommand[];
+	guildCommandsMap: Map<string, BaseSlashCommand[]>;
+};
+
+const getCommandExport = (module: Record<string, unknown>) => {
+	const firstKey = Object.keys(module)[0];
+	if (!firstKey) {
+		throw new Error('Unable to resolve command export from module');
+	}
+
+	return module[firstKey] as new (client: CustomClient) => BaseSlashCommand;
+};
+
+const getPrefixCommandExport = (module: Record<string, unknown>) => {
+	const firstKey = Object.keys(module)[0];
+	if (!firstKey) {
+		throw new Error('Unable to resolve prefix command export from module');
+	}
+
+	return module[firstKey] as new (client: CustomClient) => BasePrefixCommand;
+};
+
+export const loadSlashCommands = async (client: CustomClient): Promise<LoadedSlashCommands> => {
 	const files = readCommandFiles(join(__dirname, '../commands/slash'), '.slash.ts');
 
 	const globalCommands: BaseSlashCommand[] = [];
 	const guildCommandsMap = new Map<string, BaseSlashCommand[]>();
+	client.slashCommands.clear();
 
 	for (const file of files) {
 		const module = await import(file);
-		const Command = module[Object.keys(module)[0]];
-		const command = new Command(client) as BaseSlashCommand;
+		const Command = getCommandExport(module);
+		const command = new Command(client);
 
 		const privateGuildId = getPrivateGuildId(Object.getPrototypeOf(command).constructor);
 		if (privateGuildId) {
@@ -38,6 +58,12 @@ export const loadSlashCommands = async (client: CustomClient) => {
 		client.slashCommands.set(command.data.name, command);
 	}
 
+	client.logger.complete(`🧭 Loaded ${client.slashCommands.size} slash commands into registry`);
+	return { globalCommands, guildCommandsMap };
+};
+
+export const deploySlashCommands = async (client: CustomClient, loaded?: LoadedSlashCommands) => {
+	const { globalCommands, guildCommandsMap } = loaded ?? (await loadSlashCommands(client));
 	const rest = new REST({ version: '10' }).setToken(client.getEnv('TOKEN'));
 
 	// Deploy global
@@ -56,16 +82,17 @@ export const loadSlashCommands = async (client: CustomClient) => {
 		client.logger.complete(`🏠 Deployed ${commands.length} commands to guild ${guildId}`);
 	}
 
-	client.logger.complete(`✅ Total loaded slash commands: ${client.slashCommands.size}`);
+	client.logger.complete(`✅ Deployed ${client.slashCommands.size} slash commands`);
 };
 
 export const loadPrefixCommands = async (client: CustomClient) => {
 	const files = readCommandFiles(join(__dirname, '../commands/prefix'), '.prefix.ts');
+	client.prefixCommands.clear();
 
 	for (const file of files) {
-		const module = await import(file);
-		const Command = module[Object.keys(module)[0]];
-		const command = new Command(client) as BasePrefixCommand;
+		const module = (await import(file)) as Record<string, unknown>;
+		const Command = getPrefixCommandExport(module);
+		const command = new Command(client);
 		client.prefixCommands.set(command.name, command);
 	}
 

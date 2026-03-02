@@ -18,6 +18,13 @@ export function PermissionGuard(permissions: PermissionsString[]): Guard {
 			};
 		}
 
+		if (typeof member.permissions === 'string' || !('missing' in member.permissions)) {
+			return {
+				success: false,
+				message: T(locale, 'permission.cannotVerify', { ns: 'guards' }),
+			};
+		}
+
 		const missingPerms = member.permissions.missing(permissions, false);
 
 		if (missingPerms.length !== 0) {

@@ -49,3 +49,28 @@ export type User = Prisma.UserModel
  * 
  */
 export type Guild = Prisma.GuildModel
+/**
+ * Model GuildModuleSetting
+ * 
+ */
+export type GuildModuleSetting = Prisma.GuildModuleSettingModel
+/**
+ * Model ModerationCase
+ * 
+ */
+export type ModerationCase = Prisma.ModerationCaseModel
+/**
+ * Model WelcomeSetting
+ * 
+ */
+export type WelcomeSetting = Prisma.WelcomeSettingModel
+/**
+ * Model ReactionRoleMessage
+ * 
+ */
+export type ReactionRoleMessage = Prisma.ReactionRoleMessageModel
+/**
+ * Model ScheduledJob
+ * 
+ */
+export type ScheduledJob = Prisma.ScheduledJobModel

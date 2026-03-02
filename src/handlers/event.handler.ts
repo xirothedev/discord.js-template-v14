@@ -6,6 +6,7 @@
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
 import type { BaseEvent } from '@/structures/BaseEvent';
+import type { ClientEvents } from 'discord.js';
 
 export const loadEvents = async (client: CustomClient) => {
 	const files = readdirSync(path.join(__dirname, '../events')).filter(
@@ -13,10 +14,14 @@ export const loadEvents = async (client: CustomClient) => {
 	);
 
 	for (const file of files) {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
-		const { [Object.keys(await import(`../events/${file}`))[0]]: Event } = await import(`../events/${file}`);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-		const event = new Event(client) as BaseEvent<'ready'>;
+		const module = (await import(`../events/${file}`)) as Record<string, unknown>;
+		const firstKey = Object.keys(module)[0];
+		if (!firstKey) {
+			throw new Error(`Unable to resolve event export for file: ${file}`);
+		}
+
+		const Event = module[firstKey] as new (client: CustomClient) => BaseEvent<keyof ClientEvents>;
+		const event = new Event(client);
 
 		if (event.once) {
 			client.once(event.name, (...args) => void event.execute(...args));

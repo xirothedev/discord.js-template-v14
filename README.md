@@ -178,6 +178,10 @@ if (now < expiresAt) {
 
 3. **Configure environment variables:**
     - Copy `.env.example` to `.env` and fill in required values (e.g., `TOKEN`, `CLIENT_ID`, `DATABASE_URL`).
+    - Optional runtime toggles:
+        - `AUTO_DEPLOY_COMMANDS=false` (recommended)
+        - `ENABLE_PREFIX_COMMANDS=true`
+        - `SCHEDULER_ENABLED=true`
 
 4. **Set up the database:**
 
@@ -199,8 +203,14 @@ if (now < expiresAt) {
     ```
 
 - **Production mode:**
+
     ```sh
     bun start
+    ```
+
+- **Deploy slash commands manually:**
+    ```sh
+    bun run deploy:commands
     ```
 
 ### Debugging
@@ -237,14 +247,16 @@ Each command class receives the `CustomClient` instance for shared services (log
 Create a new file in `src/commands/prefix/`, example: `ping.prefix.ts`:
 
 ```ts
-import { BasePrefixCommand, CommandContext } from '@/structures';
+import { BasePrefixCommand } from '@/structures/BasePrefixCommand';
+import type { Message } from 'discord.js';
+import type { Guild, User } from '@prisma/client';
 
-export default class PingCommand extends BasePrefixCommand {
+export class PingCommand extends BasePrefixCommand {
 	name = 'ping';
 	description = 'Check bot latency';
 
-	async execute(ctx: CommandContext) {
-		await ctx.reply('Pong!');
+	async execute(message: Message<true>, guild: Guild, user: User, args: string[]) {
+		await message.reply(`Pong from ${guild.id} (user=${user.id}, args=${args.length})`);
 	}
 }
 ```
@@ -254,14 +266,15 @@ export default class PingCommand extends BasePrefixCommand {
 Create a new file in `src/commands/slash/`, example: `hello.slash.ts`:
 
 ```ts
-import { BaseSlashCommand, SlashCommandContext } from '@/structures';
-import { SlashCommandBuilder } from 'discord.js';
+import { BaseSlashCommand } from '@/structures/BaseSlashCommand';
+import { SlashCommandBuilder, type ChatInputCommandInteraction } from 'discord.js';
+import type { Guild, User } from '@prisma/client';
 
-export default class HelloCommand extends BaseSlashCommand {
+export class HelloCommand extends BaseSlashCommand {
 	data = new SlashCommandBuilder().setName('hello').setDescription('Hello user!');
 
-	async execute(ctx: SlashCommandContext) {
-		await ctx.interaction.reply('Hello there!');
+	async execute(interaction: ChatInputCommandInteraction, guild: Guild | undefined, user: User) {
+		await interaction.reply(`Hello ${user.id} from guild ${guild?.id ?? 'DM'}`);
 	}
 }
 ```
@@ -272,12 +285,16 @@ Create a new file in `@/events/`, example: `ready.ts`:
 
 ```ts
 import { BaseEvent } from '@/structures';
+import type { CustomClient } from '@/client/CustomClient';
+import type { Client } from 'discord.js';
 
-export default class ReadyEvent extends BaseEvent<'ready'> {
-	name = 'ready';
+export class ReadyEvent extends BaseEvent<'clientReady'> {
+	constructor(client: CustomClient) {
+		super(client, 'clientReady', true);
+	}
 
-	async execute() {
-		console.log('Bot already!');
+	execute(client: Client<true>) {
+		this.client.logger.info(`Bot is ready as ${client.user.tag}`);
 	}
 }
 ```
@@ -296,18 +313,20 @@ A cooldown guard prevents users from spamming commands by enforcing a waiting pe
 import { T } from '@/handlers/i18n.handler';
 import type { CommandContext } from '@/structures/Guard';
 import { getPrefixCommand } from '@/utils/getPrefixCommand';
-
-const cooldowns = new Map<string, number>();
+import { getAddition, setAddition } from '@/store/redisStore';
 
 export function CooldownGuard(seconds: number) {
-	return ({ interaction, message, guild }: CommandContext) => {
+	return async ({ interaction, message, guild }: CommandContext) => {
 		const userId = interaction?.user.id || message?.author.id;
 		let commandName: string;
 
 		if (interaction?.commandName) {
 			commandName = interaction.commandName;
 		} else if (message?.content) {
-			const result = getPrefixCommand(message.content, guild);
+			const result = getPrefixCommand(message.content, guild, {
+				defaultPrefix: process.env.PREFIX ?? 's?',
+				mentionUserId: message.client.user?.id,
+			});
 			if (!result) {
 				return {
 					success: false,
@@ -324,7 +343,7 @@ export function CooldownGuard(seconds: number) {
 
 		const key = `${userId}:${commandName}`;
 		const now = Date.now();
-		const expiresAt = cooldowns.get(key) || 0;
+		const expiresAt = (await getAddition<number>(key)) || 0;
 
 		if (now < expiresAt) {
 			const remaining = Math.ceil((expiresAt - now) / 1000);
@@ -337,7 +356,7 @@ export function CooldownGuard(seconds: number) {
 			};
 		}
 
-		cooldowns.set(key, now + seconds * 1000);
+		await setAddition(key, String(now + seconds * 1000), seconds);
 		return { success: true };
 	};
 }
@@ -346,18 +365,20 @@ export function CooldownGuard(seconds: number) {
 **How to use a guard in a command:**
 
 ```ts
-import { BasePrefixCommand, CommandContext } from '@/structures';
+import { BasePrefixCommand } from '@/structures/BasePrefixCommand';
 import { CooldownGuard } from '@/guards/CooldownGuard';
 import { UseGuards } from '@/decorators/useGuards.decorator';
+import type { Message } from 'discord.js';
+import type { Guild, User } from '@prisma/client';
 
 @UseGuards(CooldownGuard(10))
-export default class PingCommand extends BasePrefixCommand {
+export class PingCommand extends BasePrefixCommand {
 	name = 'ping';
 	description = 'Check bot latency';
 	aliases = ['Pong'];
 
-	async execute(ctx: CommandContext) {
-		await ctx.reply('Pong!');
+	async execute(message: Message<true>, guild: Guild, user: User, args: string[]) {
+		await message.reply(`Pong ${user.id} (${guild.id}) ${args.join(',')}`);
 	}
 }
 ```
@@ -377,6 +398,8 @@ You can combine multiple guards for a command. If any guard returns a failure, t
 
 - `bun dev` — Start the bot in development mode (hot-reload).
 - `bun start` — Start the bot in production mode.
+- `bun run deploy:commands` — Deploy slash commands manually.
+- `bun run check` — Run typecheck, lint, and tests.
 - `bun x prisma migrate dev` — Run database migrations.
 - `bun x prisma generate` — Generate Prisma client.
 

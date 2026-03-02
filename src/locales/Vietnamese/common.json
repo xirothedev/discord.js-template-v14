@@ -2,5 +2,6 @@
 	"error": "Đã xảy ra lỗi.",
 	"cannot_identify_user": "❌ Không thể xác định người dùng.",
 	"no_admin_permission": "Bạn cần có quyền administrator để thực hiện điều này!",
-	"argument_type_error": "Tham số **{argName}** ở vị trí **{argPosition}** phải là kiểu `{argValue}`."
+	"argument_type_error": "Tham số **{argName}** ở vị trí **{argPosition}** phải là kiểu `{argValue}`.",
+	"module_disabled": "❌ Module `{module}` đang tắt trong máy chủ này."
 }
