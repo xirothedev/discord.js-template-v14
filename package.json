@@ -35,7 +35,7 @@
 		"@prisma/adapter-pg": "^7.2.0",
 		"@prisma/client": "^7.2.0",
 		"dayjs": "^1.11.19",
-		"discord.js": "^14.25.1",
+		"discord.js": "^14.26.2",
 		"i18next": "25.8.0",
 		"i18next-fs-backend": "2.6.1",
 		"reflect-metadata": "^0.2.2",
