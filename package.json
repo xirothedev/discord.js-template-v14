@@ -37,7 +37,7 @@
 		"dayjs": "^1.11.19",
 		"discord.js": "^14.25.1",
 		"i18next": "25.8.0",
-		"i18next-fs-backend": "2.6.1",
+		"i18next-fs-backend": "2.6.4",
 		"reflect-metadata": "^0.2.2",
 		"signale": "^1.4.0",
 		"typescript": "^5.9.3"
