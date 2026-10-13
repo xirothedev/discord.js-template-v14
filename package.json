@@ -33,7 +33,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@prisma/adapter-pg": "^7.2.0",
-		"@prisma/client": "^7.2.0",
+		"@prisma/client": "^7.7.0",
 		"dayjs": "^1.11.19",
 		"discord.js": "^14.25.1",
 		"i18next": "25.8.0",
